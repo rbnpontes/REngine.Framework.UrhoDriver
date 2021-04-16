@@ -1,0 +1,6 @@
+[submodule "framework"]
+	path = framework
+	url = https://github.com/rbnpontes/REngine.Framework.git
+[submodule "driver"]
+	path = driver
+	url = https://github.com/rbnpontes/REngine_UrhoDriver.git
