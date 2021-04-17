@@ -4,13 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace REngine.Framework.UrhoApp
+namespace REngine.Framework.UrhoDriver
 {
-	class Program
+	internal static class Constants
 	{
-		static void Main(string[] args)
-		{
-			Application.Run(new App());
-		}
+		public const string LibPath = "Urho3D_d.dll";
 	}
 }
