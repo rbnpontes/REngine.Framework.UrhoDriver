@@ -16,6 +16,9 @@ namespace REngine.Framework.UrhoDriver.Resources
 			get => _resourcesInfo.Values.ToArray();
 		}
 
+		public RootDriver RootDriver { get; set; }
+		public ResourceCollection(RootDriver driver) => RootDriver = driver;
+
 		private void ValidateType(Type type)
 		{
 			if (_resourcesInfo.ContainsKey(type))
@@ -46,10 +49,10 @@ namespace REngine.Framework.UrhoDriver.Resources
 			return this;
 		}
 
-		public IResourcesCollection Add(Type @interface, Func<object> ctorFn)
+		public IResourcesCollection Add(Type @interface, Func<IResource> ctorFn)
 		{
 			ValidateType(@interface);
-			_resourcesInfo[@interface] = new ResourceConstructor(@interface, ctorFn);
+			_resourcesInfo[@interface] = new ResourceConstructor(@interface, ()=> ctorFn());
 			return this;
 		}
 
@@ -63,7 +66,7 @@ namespace REngine.Framework.UrhoDriver.Resources
 
 		public IResourceManager Build()
 		{
-			return new ResourceManager(_resourcesInfo);
+			return new ResourceManager(_resourcesInfo, RootDriver);
 		}
 	}
 }

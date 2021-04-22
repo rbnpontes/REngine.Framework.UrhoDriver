@@ -12,7 +12,7 @@ namespace REngine.Framework.UrhoDriver.Resources
 	{
 		public IReadOnlyList<IMaterial>[] Materials => throw new NotImplementedException();
 
-		public Mesh(Handler handle, RootDriver driver) : base(handle, driver) { }
+		public Mesh(RootDriver driver) : base(driver) { }
 
 		public void SetMaterial(IMaterial material)
 		{

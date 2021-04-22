@@ -1,4 +1,6 @@
-﻿using System;
+﻿using REngine.Framework.Drivers;
+using REngine.Framework.UrhoDriver.Internals;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +12,12 @@ namespace REngine.Framework.UrhoDriver.Drivers
 	{
 		public ResourceManagerDriver(RootDriver driver) : base(driver)
 		{
+		}
+
+		public Handler GetResourceCacheHandle()
+		{
+			Handler handler = ResourceCacheInternals.ResourceCache_Get(RootDriver.ContextPtr);
+			return handler;
 		}
 	}
 }

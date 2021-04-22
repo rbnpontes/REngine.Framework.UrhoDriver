@@ -22,6 +22,7 @@ namespace REngine.Framework.UrhoDriver
 		public IEngineDriver EngineDriver { get; private set; }
 
 		#region INTERNAL DRIVERS
+		internal ResourceManagerDriver ResourceManagerDriver { get; private set; }
 		internal MeshDriver MeshDriver { get; private set; }
 		#endregion
 
@@ -41,6 +42,7 @@ namespace REngine.Framework.UrhoDriver
 			EngineDriver = new EngineDriver(this);
 
 			// Setup Internal Drivers
+			ResourceManagerDriver = new ResourceManagerDriver(this);
 			MeshDriver = new MeshDriver(this);
 		}
 

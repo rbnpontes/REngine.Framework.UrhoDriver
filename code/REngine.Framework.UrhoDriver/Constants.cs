@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace REngine.Framework.UrhoDriver
 {
-	internal static class Constants
+	public static class Constants
 	{
 		public const string LibPath = "Urho3D_d.dll";
 	}

@@ -14,11 +14,14 @@ namespace REngine.Framework.UrhoDriver.Resources
 
 		private IDictionary<Type, ResourceConstructor> _resourcesInfo;
 		private RootDriver _rootDriver;
+		// Used for resolve Native Resources
+		private Handler _resourceCacheHandle;
 
 		public ResourceManager(IDictionary<Type, ResourceConstructor> resourcesInfo, RootDriver driver)
 		{
 			_resourcesInfo = resourcesInfo;
 			_rootDriver = driver;
+			_resourceCacheHandle = driver.ResourceManagerDriver.GetResourceCacheHandle();
 		}
 
 		public Task<object> AsyncGet(Type type)
@@ -50,7 +53,35 @@ namespace REngine.Framework.UrhoDriver.Resources
 
 		public object Get(Type type, string name)
 		{
-			throw new NotImplementedException();
+			ValidateType(type);
+			ResourceConstructor resourceCtor = _resourcesInfo[type];
+			IResource resource = resourceCtor.Instantiate();
+
+			bool isNative = resource is NativeResource;
+
+			if (isNative)
+				LoadNativeResource(resource, name);
+			else
+				LoadManagedResource(resource, name);
+
+			return resource;
+		}
+
+		private void LoadNativeResource(IResource resource, string path)
+		{
+
+		}
+
+		private void LoadManagedResource(IResource resource, string path)
+		{
+			resource.BeginRead(path);
+			resource.EndRead(path);
+		}
+
+		private void ValidateType(Type type)
+		{
+			if (!_resourcesInfo.ContainsKey(type))
+				throw new ArgumentException("This resource type is not registered!");
 		}
 	}
 }

@@ -19,5 +19,15 @@ namespace REngine.Framework.UrhoDriver.Resources
 		{
 			IsNative = isNative;
 		}
+
+		public void BeginRead(string path)
+		{
+			throw new NotImplementedException("Begin Read not works for Native Resources");
+		}
+
+		public void EndRead(string path)
+		{
+			throw new NotImplementedException("End Read not works for Native Resources");
+		}
 	}
 }

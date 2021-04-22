@@ -74,6 +74,7 @@
     <Compile Include="Handler.cs" />
     <Compile Include="Internals\CoreInternals.cs" />
     <Compile Include="Internals\EngineInternals.cs" />
+    <Compile Include="Internals\ResourceCacheInternals.cs" />
     <Compile Include="NativeObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\BaseResource.cs" />
@@ -93,6 +94,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utils\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
