@@ -22,5 +22,10 @@ namespace REngine.Framework.UrhoDriver.Drivers
 		{
 			return GetPointerFromNativeObj(obj as NativeObject);
 		}
+
+		public IntPtr GetPointerFromHandle(IHandle handle)
+		{
+			return (IntPtr)(handle as Handler).Obj;
+		}
 	}
 }

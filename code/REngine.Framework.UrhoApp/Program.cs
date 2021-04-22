@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace REngine.Framework.UrhoApp
+﻿namespace REngine.Framework.UrhoApp
 {
 	class Program
 	{
 		static void Main(string[] args)
 		{
-			Application.Run(new App());
+			Application.Run(new UrhoDriver.RootDriver() ,new App());
 		}
 	}
 }

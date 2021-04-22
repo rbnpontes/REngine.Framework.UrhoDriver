@@ -10,5 +10,8 @@ namespace REngine.Framework.UrhoDriver.Internals
 
 		[DllImport(Constants.LibPath, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Object_SetDestroyCallback(IntPtr ptr, DestroyCallback callback);
+
+		[DllImport(Constants.LibPath, CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr Context_New();
 	}
 }

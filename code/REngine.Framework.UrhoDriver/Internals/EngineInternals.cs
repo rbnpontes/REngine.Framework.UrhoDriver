@@ -6,7 +6,7 @@ namespace REngine.Framework.UrhoDriver.Internals
 	internal static class EngineInternals
 	{
 		[DllImport(Constants.LibPath, CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr DriverApplication_New();
+		public static extern IntPtr DriverApplication_New(IntPtr context);
 
 		[DllImport(Constants.LibPath, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]

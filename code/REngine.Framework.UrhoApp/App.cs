@@ -9,31 +9,7 @@ using System.Threading.Tasks;
 
 namespace REngine.Framework.UrhoApp
 {
-	class App : Application
+	class App : UrhoApplication
 	{
-		private IEngine _engine;
-		protected override void Init(IServiceCollection serviceCollection)
-		{
-			Root.Driver = new RootDriver();
-
-			_engine = Root.CreateEngine();
-
-			serviceCollection.AddSingleton<IEngine>(_engine);
-			_engine.Init();
-		}
-
-		protected override void Start(IServiceProvider serviceProvider)
-		{
-		}
-
-		protected override void Stop(IServiceProvider serviceProvider)
-		{
-			_engine.Stop();
-		}
-
-		protected override void Update(IServiceProvider serviceProvider)
-		{
-			_engine.NextFrame();
-		}
 	}
 }

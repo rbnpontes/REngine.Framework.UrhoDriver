@@ -11,7 +11,7 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public IEngine Create(Root root)
 		{
-			Handler handler = EngineInternals.DriverApplication_New();
+			Handler handler = EngineInternals.DriverApplication_New(RootDriver.ContextPtr);
 			return new Engine(handler, RootDriver);
 		}
 

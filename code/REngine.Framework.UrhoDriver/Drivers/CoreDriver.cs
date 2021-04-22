@@ -1,4 +1,5 @@
 ﻿using REngine.Framework.Drivers;
+using REngine.Framework.UrhoDriver.Internals;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,17 +16,22 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public void Destroy(IHandle handle)
 		{
-			throw new NotImplementedException();
+			CoreInternals.Object_Free(GetPointerFromHandle(handle));
 		}
 
 		public void Dump()
 		{
-			throw new NotImplementedException();
+			// Does nothing
+		}
+
+		public IHandle GetHandle(object obj)
+		{
+			return (obj as NativeObject).Handle;
 		}
 
 		public bool HasDestroyed(IHandle handle)
 		{
-			throw new NotImplementedException();
+			return (handle as Handler).IsDestroyed;
 		}
 	}
 }
