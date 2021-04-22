@@ -15,5 +15,6 @@ namespace REngine.Framework.UrhoDriver.Resources
 		{
 			RootDriver = driver;
 		}
+		protected abstract void LoadResource(Handler resourceCache, string name);
 	}
 }

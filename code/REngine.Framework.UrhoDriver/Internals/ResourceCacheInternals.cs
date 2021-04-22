@@ -11,5 +11,8 @@ namespace REngine.Framework.UrhoDriver.Internals
 	{
 		[DllImport(Constants.LibPath, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr ResourceCache_Get(IntPtr ctx);
+
+		[DllImport(Constants.LibPath, CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr ResourceCache_GetModel(IntPtr resourceCache, string name);
 	}
 }

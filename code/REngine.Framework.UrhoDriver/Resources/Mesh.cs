@@ -23,5 +23,12 @@ namespace REngine.Framework.UrhoDriver.Resources
 		{
 			throw new NotImplementedException();
 		}
+
+		protected override void LoadResource(Handler cache, string name)
+		{
+			Handler handler = RootDriver.ResourceManagerDriver.LoadResource(Drivers.ResourceType.Model, cache, name);
+			Name = name;
+			Handle = handler;
+		}
 	}
 }
