@@ -19,6 +19,16 @@ namespace REngine.Framework.UrhoDriver.Resources
 		public RootDriver RootDriver { get; set; }
 		public ResourceCollection(RootDriver driver) => RootDriver = driver;
 
+		public ResourceCollection()
+		{
+			RegisterDefaults();
+		}
+
+		private void RegisterDefaults()
+		{
+			Add<IMesh, Mesh>();
+		}
+
 		private void ValidateType(Type type)
 		{
 			if (_resourcesInfo.ContainsKey(type))

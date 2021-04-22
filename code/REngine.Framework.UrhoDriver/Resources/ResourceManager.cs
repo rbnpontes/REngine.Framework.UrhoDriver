@@ -43,15 +43,15 @@ namespace REngine.Framework.UrhoDriver.Resources
 
 		public void Dispose()
 		{
-			throw new NotImplementedException();
+			ClearCache();
 		}
 
 		public T Get<T>(string name)
 		{
-			throw new NotImplementedException();
+			return (T)Get(typeof(T), name);
 		}
 
-		public object Get(Type type, string name)
+		public IResource Get(Type type, string name)
 		{
 			ValidateType(type);
 			ResourceConstructor resourceCtor = _resourcesInfo[type];
@@ -69,7 +69,9 @@ namespace REngine.Framework.UrhoDriver.Resources
 
 		private void LoadNativeResource(IResource resource, string path)
 		{
-
+			NativeResource nativeResource = resource as NativeResource;
+			nativeResource.RootDriver = _rootDriver;
+			nativeResource.LoadResource(_resourceCacheHandle, path);
 		}
 
 		private void LoadManagedResource(IResource resource, string path)

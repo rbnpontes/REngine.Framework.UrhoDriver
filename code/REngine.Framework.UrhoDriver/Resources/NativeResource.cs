@@ -10,11 +10,10 @@ namespace REngine.Framework.UrhoDriver.Resources
 	internal abstract class NativeResource : BaseResource
 	{
 		public Handler Handle { get; internal set; } = Handler.Zero;
-		public RootDriver RootDriver { get; private set; }
-		public NativeResource(RootDriver driver) : base(true)
+		public RootDriver RootDriver { get; internal set; }
+		public NativeResource() : base(true)
 		{
-			RootDriver = driver;
 		}
-		protected abstract void LoadResource(Handler resourceCache, string name);
+		public abstract void LoadResource(Handler resourceCache, string name);
 	}
 }
