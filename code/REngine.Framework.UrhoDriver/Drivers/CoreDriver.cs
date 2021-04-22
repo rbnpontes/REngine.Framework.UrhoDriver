@@ -16,6 +16,7 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public void Destroy(IHandle handle)
 		{
+			ValidateThread();
 			CoreInternals.Object_Free(GetPointerFromHandle(handle));
 		}
 
@@ -31,6 +32,7 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public bool HasDestroyed(IHandle handle)
 		{
+			ValidateThread();
 			return (handle as Handler).IsDestroyed;
 		}
 	}

@@ -33,12 +33,14 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public Handler GetResourceCacheHandle()
 		{
+			ValidateThread();
 			Handler handler = ResourceCacheInternals.ResourceCache_Get(RootDriver.ContextPtr);
 			return handler;
 		}
 		
 		public Handler LoadResource(ResourceType type, IHandle resourceCache, string name)
 		{
+			ValidateThread();
 			Func<IntPtr, string, IntPtr> call = (x, y) => IntPtr.Zero;
 			switch (type)
 			{

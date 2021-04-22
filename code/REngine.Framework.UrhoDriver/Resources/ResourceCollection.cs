@@ -17,10 +17,9 @@ namespace REngine.Framework.UrhoDriver.Resources
 		}
 
 		public RootDriver RootDriver { get; set; }
-		public ResourceCollection(RootDriver driver) => RootDriver = driver;
-
-		public ResourceCollection()
+		public ResourceCollection(RootDriver driver)
 		{
+			RootDriver = driver;
 			RegisterDefaults();
 		}
 

@@ -26,6 +26,7 @@ namespace REngine.Framework.UrhoDriver.Resources
 
 		public Task<object> AsyncGet(Type type)
 		{
+			ValidateThread();
 			throw new NotImplementedException();
 		}
 
@@ -36,6 +37,7 @@ namespace REngine.Framework.UrhoDriver.Resources
 
 		public IResourceManager ClearCache()
 		{
+			ValidateThread();
 			_cachedResources.Clear();
 
 			return this;
@@ -43,6 +45,7 @@ namespace REngine.Framework.UrhoDriver.Resources
 
 		public void Dispose()
 		{
+			ValidateThread();
 			ClearCache();
 		}
 
@@ -53,9 +56,19 @@ namespace REngine.Framework.UrhoDriver.Resources
 
 		public IResource Get(Type type, string name)
 		{
+			ValidateThread();
 			ValidateType(type);
-			ResourceConstructor resourceCtor = _resourcesInfo[type];
-			IResource resource = resourceCtor.Instantiate();
+			IResource resource = GetFromCache(name);
+
+			if(resource is null)
+			{
+				ResourceConstructor resourceCtor = _resourcesInfo[type];
+				resource = resourceCtor.Instantiate();
+			} else
+			{
+				return resource;
+			}
+			
 
 			bool isNative = resource is NativeResource;
 
@@ -65,6 +78,13 @@ namespace REngine.Framework.UrhoDriver.Resources
 				LoadManagedResource(resource, name);
 
 			return resource;
+		}
+
+		private IResource GetFromCache(string res)
+		{
+			if (_cachedResources.ContainsKey(res))
+				return _cachedResources[res];
+			return null;
 		}
 
 		private void LoadNativeResource(IResource resource, string path)
@@ -78,6 +98,15 @@ namespace REngine.Framework.UrhoDriver.Resources
 		{
 			resource.BeginRead(path);
 			resource.EndRead(path);
+		}
+
+		/// <summary>
+		/// Throws a Exception is in on another thread instead of main. 
+		/// </summary>
+		private void ValidateThread()
+		{
+			if (System.Threading.Thread.CurrentThread != _rootDriver.CurrentThread)
+				throw new AccessViolationException("ResourceManager can only be accessed on Main Thread");
 		}
 
 		private void ValidateType(Type type)

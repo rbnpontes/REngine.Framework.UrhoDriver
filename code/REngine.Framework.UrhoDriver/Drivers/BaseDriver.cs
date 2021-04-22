@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace REngine.Framework.UrhoDriver.Drivers
@@ -26,6 +27,13 @@ namespace REngine.Framework.UrhoDriver.Drivers
 		public IntPtr GetPointerFromHandle(IHandle handle)
 		{
 			return (IntPtr)(handle as Handler).Obj;
+		}
+
+		protected void ValidateThread()
+		{
+			Thread currThread = Thread.CurrentThread;
+			if (currThread != RootDriver.CurrentThread)
+				throw new AccessViolationException("Main Resources can only be accessed by Main Thread!");
 		}
 	}
 }

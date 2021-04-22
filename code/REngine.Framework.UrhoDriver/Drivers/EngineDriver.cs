@@ -11,22 +11,26 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public IEngine Create(Root root)
 		{
+			ValidateThread();
 			Handler handler = EngineInternals.DriverApplication_New(RootDriver.ContextPtr);
 			return new Engine(handler, RootDriver);
 		}
 
 		public void Initialize(IEngine engine)
 		{
+			ValidateThread();
 			EngineInternals.DriverApplication_Initialize(GetPointerFromObj(engine));
 		}
 
 		public void RunNextFrame(IEngine engine)
 		{
+			ValidateThread();
 			EngineInternals.DriverApplication_NextFrame(GetPointerFromObj(engine));
 		}
 
 		public void Stop(IEngine engine)
 		{
+			ValidateThread();
 			EngineInternals.DriverApplication_Stop(GetPointerFromObj(engine));
 		}
 	}
