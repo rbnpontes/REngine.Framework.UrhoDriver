@@ -1,4 +1,5 @@
 ﻿using REngine.Framework.Drivers;
+using REngine.Framework.UrhoDriver.Internals;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,24 +8,33 @@ using System.Threading.Tasks;
 
 namespace REngine.Framework.UrhoDriver
 {
-	delegate void DestroyCallback(IntPtr pointer);
+	delegate void DriverObjectCallback(IntPtr pointer);
+	delegate void DriverObjectAlignCallback(IntPtr pointer, int sessionId);
 	internal sealed class Handler : IHandle
 	{
 		private IntPtr ptr = IntPtr.Zero;
-		private DestroyCallback destroyCallback;
+
+
+		private DriverObjectCallback _addRefCallback;
+		private DriverObjectCallback _removeRefCallback;
+		private DriverObjectCallback _destroyCallback;
+		private DriverObjectAlignCallback _alignCallback;
+
+		private bool _isStrong = false;
+		private int _sessionId = -1;
+
 		private bool destroyed = false;
 
 		public bool IsDestroyed { get => destroyed; }
 
-		public string Name { get; set; }
+		public int Refs
+		{
+			get => CoreInternals.Object_Refs(ptr);
+		}
 
 		public object Obj
 		{
 			get => ptr;
-			set
-			{
-				ptr = (IntPtr)value;
-			}
 		}
 		public static Handler Zero { get; private set; } = new Handler(IntPtr.Zero);
 
@@ -35,22 +45,69 @@ namespace REngine.Framework.UrhoDriver
 			if (pointer.Equals(IntPtr.Zero))
 			{
 				destroyed = true;
-				Name = "undefined";
 				return;
 			}
+
+			_isStrong = Refs != 0;
 			
-			destroyCallback = (ptr) =>
+			RegisterListeners();
+		}
+
+		~Handler()
+		{
+			// Return is was destroyed by unmanaged.
+			if (destroyed)
+				return;
+
+			if (_isStrong)
+			{
+				ClearListeners(true)
+;				return;
+			}
+
+			CoreInternals.Object_Free(ptr);
+		}
+
+		private void RegisterListeners()
+		{
+			_sessionId = CoreInternals.Object_CreateCallbackSession(ptr);
+
+			_destroyCallback = (ptr) =>
 			{
 				destroyed = true;
 				ptr = IntPtr.Zero;
+				ClearListeners(false);
 			};
 
+			_addRefCallback = (ptr) =>
+			{
+				_isStrong = true;
+			};
 
+			_removeRefCallback = (ptr) =>
+			{
+				// Does nothing
+			};
+
+			_alignCallback = (ptr, id) =>
+			{
+				_sessionId = id;
+			};
+
+			CoreInternals.Object_SetupCallbackSession(ptr, _sessionId, 
+				_addRefCallback, 
+				_removeRefCallback, 
+				_destroyCallback, 
+				_alignCallback);
 		}
-		public void Reset()
+
+		private void ClearListeners(bool clearNative)
 		{
-			ptr = IntPtr.Zero;
-			destroyed = true;
+			_destroyCallback = _removeRefCallback = _addRefCallback = null;
+			_alignCallback = null;
+
+			if(clearNative)
+				CoreInternals.Object_DropSession(ptr, _sessionId);
 		}
 
 		public bool Equals(IHandle other)

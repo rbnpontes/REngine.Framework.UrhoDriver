@@ -1,9 +1,5 @@
 ﻿using REngine.Framework.Drivers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace REngine.Framework.UrhoDriver
 {
@@ -15,15 +11,25 @@ namespace REngine.Framework.UrhoDriver
 		
 		public IHandle Handle
 		{
-			get => _handler;
+			get
+			{
+				Validate();
+				return _handler;
+			}
 			internal set
 			{
 				_handler = value as Handler;
 			}
 		}
 
-		public bool IsDestroyed { get => _handler.IsDestroyed; }
-
+		public bool IsDestroyed
+		{
+			get
+			{
+				Validate();
+				return _handler.IsDestroyed;
+			}
+		}
 		public NativeObject()
 		{
 			Handle = Handler.Zero;
@@ -33,6 +39,14 @@ namespace REngine.Framework.UrhoDriver
 		{
 			_handler = handler;
 			Driver = driver;
+		}
+
+		private void Validate()
+		{
+			if (System.Threading.Thread.CurrentThread != Driver.CurrentThread)
+				throw new AccessViolationException("This object is only accessible on Main Thread");
+			if (IsDestroyed)
+				throw new AccessViolationException("This object has been already destroyed!!!");
 		}
 	}
 }
