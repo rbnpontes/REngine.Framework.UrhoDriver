@@ -17,7 +17,10 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public IMesh Wrap(IHandle handle)
 		{
-			return new Mesh(handle as Handler, RootDriver);
+			var mesh = new Mesh();
+			mesh.Handle = handle as Handler;
+			mesh.RootDriver = RootDriver;
+			return mesh;
 		}
 	}
 }
