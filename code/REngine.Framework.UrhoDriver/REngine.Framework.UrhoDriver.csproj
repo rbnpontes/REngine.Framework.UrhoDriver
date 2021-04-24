@@ -62,6 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actor.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Drivers\ActorDriver.cs" />
     <Compile Include="Drivers\BaseDriver.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Drivers\WorldDriver.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="Handler.cs" />
+    <Compile Include="InternalList.cs" />
     <Compile Include="Internals\CoreInternals.cs" />
     <Compile Include="Internals\EngineInternals.cs" />
     <Compile Include="Internals\ResourceCacheInternals.cs" />
@@ -86,6 +88,7 @@
     <Compile Include="Resources\ResourceManager.cs" />
     <Compile Include="RootDriver.cs" />
     <Compile Include="UrhoApplication.cs" />
+    <Compile Include="World.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\framework\REngine.Framework\REngine.Framework.csproj">

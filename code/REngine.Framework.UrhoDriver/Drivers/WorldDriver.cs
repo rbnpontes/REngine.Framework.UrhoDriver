@@ -1,4 +1,5 @@
 ﻿using REngine.Framework.Drivers;
+using REngine.Framework.UrhoDriver.Internals;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public void Clear(IWorld handle)
 		{
-			throw new NotImplementedException();
+			WorldInternals.Scene_Clear(GetPointerFromObj(handle));
 		}
 
 		public IWorld Clone(IWorld world)
@@ -25,12 +26,14 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public IWorld Create(Root root)
 		{
-			throw new NotImplementedException();
+			Handler handler = WorldInternals.Scene_Create(RootDriver.ContextPtr);
+			return Wrap(handler);
 		}
 
 		public IActor CreateActor(IWorld world)
 		{
-			throw new NotImplementedException();
+			Handler handler = WorldInternals.Scene_CreateChild(GetPointerFromObj(world));
+			return RootDriver.ActorDriver.Wrap(handler);
 		}
 
 		public INativeList GetActors(IWorld world)
@@ -40,7 +43,7 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public IWorld Wrap(IHandle handle)
 		{
-			throw new NotImplementedException();
+			return new World(handle as Handler, RootDriver);
 		}
 	}
 }
