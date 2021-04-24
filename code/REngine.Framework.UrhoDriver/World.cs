@@ -17,7 +17,11 @@ namespace REngine.Framework.UrhoDriver
 			}
 		}
 
-		public World(Handler handle, RootDriver driver) : base(handle, driver) { }
+		public World(Handler handle, RootDriver driver) : base(handle, driver) {
+#if DEBUG
+			handle.TypeName = nameof(World);
+#endif
+		}
 
 		public IWorld Clear()
 		{

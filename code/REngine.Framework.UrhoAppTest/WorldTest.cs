@@ -41,5 +41,28 @@ namespace REngine.Framework.UrhoAppTest
 				Assert.AreEqual(second, actors[1]);
 			}
 		}
+
+		private void MemoryLeakTest()
+		{
+			using(IWorld world = Root.CreateWorld())
+			{
+				for (int i = 0; i < 10; i++)
+					world.CreateActor();
+			}
+		}
+		[TestMethod]
+		public void Test_MemoryLeak()
+		{
+			ulong initMemory = Driver.CoreDriver.GetObjectCount();
+			MemoryLeakTest();
+
+			GC.Collect();
+			GC.WaitForPendingFinalizers();
+			GC.WaitForFullGCComplete();
+			GC.Collect();
+
+			ulong currMemory = Driver.CoreDriver.GetObjectCount();
+			Assert.AreEqual(initMemory, currMemory);
+		}
 	}
 }

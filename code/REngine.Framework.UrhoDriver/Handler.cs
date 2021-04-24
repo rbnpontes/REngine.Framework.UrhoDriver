@@ -32,6 +32,10 @@ namespace REngine.Framework.UrhoDriver
 		{
 			get => ptr;
 		}
+
+#if DEBUG // Debug Purposes Only
+		public string TypeName { get; set; }
+#endif
 		public static Handler Zero { get; private set; } = new Handler(IntPtr.Zero);
 
 		public Handler(IntPtr pointer)
