@@ -35,15 +35,15 @@ namespace REngine.Framework.UrhoDriver
 #endif
 		}
 
-		public (uint UnAllocatedCount, uint AliveCount) GetStatus()
+		public (uint DeAllocatedCount, uint UnAllocatedCount) GetStatus()
 		{
+			uint dealloc = 0;
 			uint unalloc = 0;
-			uint alive = 0;
 
 #if DEBUG
-			MemoryTracerInternals.MemoryTracer_GetObjectStatus(out unalloc, out alive);
+			MemoryTracerInternals.MemoryTracer_GetObjectStatus(out dealloc, out unalloc);
 #endif
-			return (unalloc, alive);
+			return (dealloc, unalloc);
 		}
 		public void Dispose()
 		{

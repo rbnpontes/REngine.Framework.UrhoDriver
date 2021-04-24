@@ -18,6 +18,6 @@ namespace REngine.Framework.UrhoDriver.Internals
 		[DllImport(Constants.LibPath, CallingConvention = CallingConvention.Cdecl)]
 		public static extern string MemoryTracer_GetReport();
 		[DllImport(Constants.LibPath, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void MemoryTracer_GetObjectStatus([Out]out uint unallocated, [Out] out uint alive);
+		public static extern void MemoryTracer_GetObjectStatus([Out]out uint dealloc, [Out] out uint unalloc);
 	}
 }
