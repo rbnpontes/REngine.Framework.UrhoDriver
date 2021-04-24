@@ -78,8 +78,10 @@
     <Compile Include="Internals\CoreInternals.cs" />
     <Compile Include="Internals\EngineInternals.cs" />
     <Compile Include="Internals\ListInternals.cs" />
+    <Compile Include="Internals\MemoryTracerInternals.cs" />
     <Compile Include="Internals\ResourceCacheInternals.cs" />
     <Compile Include="Internals\WorldInternals.cs" />
+    <Compile Include="MemoryTracer.cs" />
     <Compile Include="NativeObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\BaseResource.cs" />

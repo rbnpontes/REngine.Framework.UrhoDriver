@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using REngine.Framework.UrhoDriver;
 using System;
 using System.Collections.Generic;
 
@@ -44,25 +45,31 @@ namespace REngine.Framework.UrhoAppTest
 
 		private void MemoryLeakTest()
 		{
-			using(IWorld world = Root.CreateWorld())
-			{
-				for (int i = 0; i < 10; i++)
-					world.CreateActor();
-			}
+			IWorld world = Root.CreateWorld();
+			//using(IWorld world = Root.CreateWorld())
+			//{
+			//	for (int i = 0; i < 10; i++)
+			//		world.CreateActor();
+			//}
 		}
 		[TestMethod]
 		public void Test_MemoryLeak()
 		{
-			ulong initMemory = Driver.CoreDriver.GetObjectCount();
-			MemoryLeakTest();
+			using (MemoryTracer tracer = MemoryTracer.Begin())
+			{
+				MemoryLeakTest();
 
-			GC.Collect();
-			GC.WaitForPendingFinalizers();
-			GC.WaitForFullGCComplete();
-			GC.Collect();
+				GC.Collect();
+				GC.WaitForPendingFinalizers();
+				GC.WaitForFullGCComplete();
+				GC.Collect();
 
-			ulong currMemory = Driver.CoreDriver.GetObjectCount();
-			Assert.AreEqual(initMemory, currMemory);
+				tracer.End();
+
+				(uint unalloc, uint alive) = tracer.GetStatus();
+
+				Assert.AreEqual(alive, 0);
+			}
 		}
 	}
 }
