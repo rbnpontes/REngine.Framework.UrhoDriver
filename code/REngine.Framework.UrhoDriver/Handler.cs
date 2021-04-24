@@ -34,7 +34,7 @@ namespace REngine.Framework.UrhoDriver
 		}
 
 #if DEBUG // Debug Purposes Only
-		public string TypeName { get; set; }
+		public string TypeName { get; set; } = "";
 #endif
 		public static Handler Zero { get; private set; } = new Handler(IntPtr.Zero);
 
@@ -61,7 +61,7 @@ namespace REngine.Framework.UrhoDriver
 
 			if (_isStrong)
 			{
-				ClearListeners(true)
+				ClearListeners();
 ;				return;
 			}
 
@@ -76,7 +76,6 @@ namespace REngine.Framework.UrhoDriver
 			{
 				destroyed = true;
 				ptr = IntPtr.Zero;
-				ClearListeners(false);
 			};
 
 			_addRefCallback = (ptr) =>
@@ -101,13 +100,12 @@ namespace REngine.Framework.UrhoDriver
 				_alignCallback);
 		}
 
-		private void ClearListeners(bool clearNative)
+		private void ClearListeners()
 		{
 			_destroyCallback = _removeRefCallback = _addRefCallback = null;
 			_alignCallback = null;
-
-			if(clearNative)
-				CoreInternals.Object_DropSession(ptr, _sessionId);
+			
+			CoreInternals.Object_DropSession(ptr, _sessionId);
 		}
 
 		public bool Equals(IHandle other)
