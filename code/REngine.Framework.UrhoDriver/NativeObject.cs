@@ -48,5 +48,14 @@ namespace REngine.Framework.UrhoDriver
 			if (IsDestroyed)
 				throw new AccessViolationException("This object has been already destroyed!!!");
 		}
+
+		public override bool Equals(object obj)
+		{
+			return Handle.Equals(obj);
+		}
+		public override int GetHashCode()
+		{
+			return Handle.GetHashCode();
+		}
 	}
 }

@@ -74,8 +74,10 @@
     <Compile Include="Engine.cs" />
     <Compile Include="Handler.cs" />
     <Compile Include="InternalList.cs" />
+    <Compile Include="Internals\ActorInternals.cs" />
     <Compile Include="Internals\CoreInternals.cs" />
     <Compile Include="Internals\EngineInternals.cs" />
+    <Compile Include="Internals\ListInternals.cs" />
     <Compile Include="Internals\ResourceCacheInternals.cs" />
     <Compile Include="Internals\WorldInternals.cs" />
     <Compile Include="NativeObject.cs" />

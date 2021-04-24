@@ -13,14 +13,10 @@ namespace REngine.Framework.UrhoDriver
 
 		public World(Handler handle, RootDriver driver) : base(handle, driver) { }
 
-		public IWorld AddChild(IActor actor)
-		{
-			throw new NotImplementedException();
-		}
-
 		public IWorld Clear()
 		{
-			throw new NotImplementedException();
+			Driver.WorldDriver.Clear(this);
+			return this;
 		}
 
 		public object Clone()
@@ -30,12 +26,12 @@ namespace REngine.Framework.UrhoDriver
 
 		public IActor CreateActor()
 		{
-			throw new NotImplementedException();
+			return Driver.WorldDriver.CreateActor(this);
 		}
 
 		public void Dispose()
 		{
-			throw new NotImplementedException();
+			Clear();
 		}
 	}
 }

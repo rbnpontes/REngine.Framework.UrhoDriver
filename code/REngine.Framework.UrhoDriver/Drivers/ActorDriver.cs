@@ -1,9 +1,6 @@
 ﻿using REngine.Framework.Drivers;
-using System;
+using REngine.Framework.UrhoDriver.Internals;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace REngine.Framework.UrhoDriver.Drivers
 {
@@ -15,42 +12,81 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public void AddChild(IActor src, IActor handle)
 		{
-			throw new NotImplementedException();
+			ActorInternals.Node_AddChild(
+				GetPointerFromObj(src),
+				GetPointerFromObj(handle)
+			);
 		}
 
 		public IActor Clone(IActor actor)
 		{
-			throw new NotImplementedException();
+			Handler handler = ActorInternals.Node_Clone(GetPointerFromObj(actor));
+			return Wrap(handler);
 		}
 
 		public void Destroy(IActor handle)
 		{
-			throw new NotImplementedException();
+			ActorInternals.Node_Destroy(GetPointerFromObj(handle));
 		}
 
-		public INativeList GetChildren(IActor handle)
+		public IReadOnlyList<IActor> GetChildren(IActor handle)
 		{
-			throw new NotImplementedException();
+			Handler list = ActorInternals.Node_GetChildren(GetPointerFromObj(handle));
+			return new InternalList<IActor>(list, ListGetterCallback);
 		}
 
 		public string GetName(IActor handle)
 		{
-			throw new NotImplementedException();
+			return ActorInternals.Node_GetName(GetPointerFromObj(handle));
 		}
 
 		public void RemoveChild(IActor src, IActor handle)
 		{
-			throw new NotImplementedException();
+			ActorInternals.Node_RemoveChild(
+				GetPointerFromObj(src),
+				GetPointerFromObj(handle)
+			);
 		}
 
 		public void SetName(IActor handle, string value)
 		{
-			throw new NotImplementedException();
+			ActorInternals.Node_SetName(GetPointerFromObj(handle), value);
+		}
+
+		public void Detach(IActor actor)
+		{
+			ActorInternals.Node_Detach(GetPointerFromObj(actor));
 		}
 
 		public IActor Wrap(IHandle handle)
 		{
-			throw new NotImplementedException();
+			Actor actor = new Actor(handle as Handler, RootDriver);
+			return actor;
+		}
+
+		public IActor ListGetterCallback(Handler handle)
+		{
+			return Wrap(handle);
+		}
+
+		public IActor GetParent(IActor actor)
+		{
+			Handler handler = ActorInternals.Node_GetParent(GetPointerFromObj(actor));
+			return Wrap(handler);
+		}
+
+		public IWorld GetWorld(IActor actor)
+		{
+			Handler handler = ActorInternals.Node_GetScene(GetPointerFromObj(actor));
+			return RootDriver.WorldDriver.Wrap(handler);
+		}
+
+		public void SetParent(IActor actor, IActor target)
+		{
+			ActorInternals.Node_SetParent(
+				GetPointerFromObj(actor),
+				GetPointerFromObj(target)
+			);
 		}
 	}
 }

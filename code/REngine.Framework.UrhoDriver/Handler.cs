@@ -1,16 +1,12 @@
 ﻿using REngine.Framework.Drivers;
 using REngine.Framework.UrhoDriver.Internals;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace REngine.Framework.UrhoDriver
 {
 	delegate void DriverObjectCallback(IntPtr pointer);
 	delegate void DriverObjectAlignCallback(IntPtr pointer, int sessionId);
-	internal sealed class Handler : IHandle
+	internal sealed class Handler : IHandle, IEquatable<IHandle>
 	{
 		private IntPtr ptr = IntPtr.Zero;
 
@@ -112,7 +108,17 @@ namespace REngine.Framework.UrhoDriver
 
 		public bool Equals(IHandle other)
 		{
-			return ptr.Equals(other.Obj);
+			return other.GetHashCode() == GetHashCode();
+		}
+
+		public override bool Equals(object obj)
+		{
+			return obj.GetHashCode() == GetHashCode();
+		}
+
+		public override int GetHashCode()
+		{
+			return ptr.ToInt32();
 		}
 
 		public static implicit operator Handler(IntPtr ptr) => new Handler(ptr);

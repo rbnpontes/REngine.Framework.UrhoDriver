@@ -36,9 +36,11 @@ namespace REngine.Framework.UrhoDriver.Drivers
 			return RootDriver.ActorDriver.Wrap(handler);
 		}
 
-		public INativeList GetActors(IWorld world)
+		public IReadOnlyList<IActor> GetActors(IWorld world)
 		{
-			throw new NotImplementedException();
+			// Urho3D Scene inherits Node Type
+			Handler handler = ActorInternals.Node_GetChildren(GetPointerFromObj(world));
+			return new InternalList<IActor>(handler, (RootDriver.ActorDriver as ActorDriver).ListGetterCallback);
 		}
 
 		public IWorld Wrap(IHandle handle)

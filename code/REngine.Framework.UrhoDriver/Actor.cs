@@ -8,32 +8,55 @@ namespace REngine.Framework.UrhoDriver
 {
 	internal class Actor : NativeObject, IActor
 	{
-		public string Name { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-		public IWorld World { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-		public IActor Parent { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public string Name { 
+			get => Driver.ActorDriver.GetName(this); 
+			set => Driver.ActorDriver.SetName(this, value); 
+		}
+		public IWorld World { 
+			get => Driver.ActorDriver.GetWorld(this); 
+			set => throw new NotImplementedException(); 
+		}
+		public IActor Parent {
+			get => Driver.ActorDriver.GetParent(this);
+			set => Driver.ActorDriver.SetParent(this, value); 
+		}
 
-		public IReadOnlyList<IActor> Children => throw new NotImplementedException();
+		public IReadOnlyList<IActor> Children
+		{
+			get
+			{
+				return Driver.ActorDriver.GetChildren(this);
+			}
+		}
 
 		public Actor(Handler handler, RootDriver driver) : base(handler, driver) { }
 
 		public IActor AddChild(IActor actor)
 		{
-			throw new NotImplementedException();
+			Driver.ActorDriver.AddChild(this, actor);
+			return this;
 		}
 
 		public object Clone()
 		{
-			throw new NotImplementedException();
+			return Driver.ActorDriver.Clone(this);
 		}
 
 		public void Destroy()
 		{
-			throw new NotImplementedException();
+			Driver.ActorDriver.Destroy(this);
 		}
 
 		public IActor RemoveChild(IActor actor)
 		{
-			throw new NotImplementedException();
+			Driver.ActorDriver.RemoveChild(this, actor);
+			return this;
+		}
+
+		public IActor Detach()
+		{
+			Driver.ActorDriver.Detach(this);
+			return this;
 		}
 	}
 }
