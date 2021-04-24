@@ -66,9 +66,9 @@ namespace REngine.Framework.UrhoAppTest
 
 				tracer.End();
 
-				(uint unalloc, uint alive) = tracer.GetStatus();
+				(uint dealloc, uint unalloc) = tracer.GetStatus();
 
-				Assert.AreEqual(alive, 0);
+				Assert.AreEqual(unalloc, 0u);
 			}
 		}
 	}
