@@ -58,10 +58,7 @@ namespace REngine.Framework.UrhoAppTest
 			{
 				MemoryLeakTest();
 
-				GC.Collect();
-				GC.WaitForPendingFinalizers();
-				GC.WaitForFullGCComplete();
-				GC.Collect();
+				ForceGC();
 
 				tracer.End();
 

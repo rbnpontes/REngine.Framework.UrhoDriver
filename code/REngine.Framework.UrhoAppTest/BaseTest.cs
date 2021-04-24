@@ -1,5 +1,6 @@
 ﻿using REngine.Framework.Drivers;
 using REngine.Framework.UrhoDriver;
+using System;
 
 namespace REngine.Framework.UrhoAppTest
 {
@@ -27,5 +28,12 @@ namespace REngine.Framework.UrhoAppTest
 			Engine.Init();
 		}
 
+		protected void ForceGC()
+		{
+			GC.Collect();
+			GC.WaitForPendingFinalizers();
+			GC.WaitForFullGCComplete();
+			GC.Collect();
+		}
 	}
 }
