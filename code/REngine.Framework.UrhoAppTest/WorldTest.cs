@@ -45,12 +45,11 @@ namespace REngine.Framework.UrhoAppTest
 
 		private void MemoryLeakTest()
 		{
-			IWorld world = Root.CreateWorld();
-			//using(IWorld world = Root.CreateWorld())
-			//{
-			//	for (int i = 0; i < 10; i++)
-			//		world.CreateActor();
-			//}
+			using (IWorld world = Root.CreateWorld())
+			{
+				for (int i = 0; i < 10; i++)
+					world.CreateActor();
+			}
 		}
 		[TestMethod]
 		public void Test_MemoryLeak()
