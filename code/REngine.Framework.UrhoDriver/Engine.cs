@@ -8,7 +8,13 @@ namespace REngine.Framework.UrhoDriver
 {
 	internal class Engine : NativeObject, IEngine
 	{
+		private bool _stopped = false;
 		public Engine(Handler handle, RootDriver driver) :base(handle, driver) { }
+
+		public void Dispose()
+		{
+			Stop();
+		}
 
 		public void Init()
 		{
@@ -22,7 +28,10 @@ namespace REngine.Framework.UrhoDriver
 
 		public void Stop()
 		{
+			if (_stopped)
+				return;
 			Driver.EngineDriver.Stop(this);
+			_stopped = true;
 		}
 	}
 }

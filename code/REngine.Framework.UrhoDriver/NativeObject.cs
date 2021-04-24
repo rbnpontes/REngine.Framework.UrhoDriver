@@ -26,7 +26,6 @@ namespace REngine.Framework.UrhoDriver
 		{
 			get
 			{
-				Validate();
 				return _handler.IsDestroyed;
 			}
 		}

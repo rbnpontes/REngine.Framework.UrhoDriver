@@ -9,24 +9,48 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "REngine.Framework.UrhoApp",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "REngine.Framework.UrhoDriver", "REngine.Framework.UrhoDriver\REngine.Framework.UrhoDriver.csproj", "{3F12FACD-F71A-488E-978D-445A2FB7AF5F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "REngine.Framework.UrhoAppTest", "REngine.Framework.UrhoAppTest\REngine.Framework.UrhoAppTest.csproj", "{D87EA215-742C-4F57-891E-A650070225C7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C950D8ED-DC96-43F0-A094-D3E225302D20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C950D8ED-DC96-43F0-A094-D3E225302D20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C950D8ED-DC96-43F0-A094-D3E225302D20}.Debug|x64.ActiveCfg = Debug|x64
 		{C950D8ED-DC96-43F0-A094-D3E225302D20}.Debug|x64.Build.0 = Debug|x64
+		{C950D8ED-DC96-43F0-A094-D3E225302D20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C950D8ED-DC96-43F0-A094-D3E225302D20}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C950D8ED-DC96-43F0-A094-D3E225302D20}.Release|x64.ActiveCfg = Release|x64
 		{C950D8ED-DC96-43F0-A094-D3E225302D20}.Release|x64.Build.0 = Release|x64
+		{28D78AE7-C187-4EA0-AC1B-6BCBACB3ADC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28D78AE7-C187-4EA0-AC1B-6BCBACB3ADC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28D78AE7-C187-4EA0-AC1B-6BCBACB3ADC0}.Debug|x64.ActiveCfg = Debug|x64
 		{28D78AE7-C187-4EA0-AC1B-6BCBACB3ADC0}.Debug|x64.Build.0 = Debug|x64
+		{28D78AE7-C187-4EA0-AC1B-6BCBACB3ADC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28D78AE7-C187-4EA0-AC1B-6BCBACB3ADC0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{28D78AE7-C187-4EA0-AC1B-6BCBACB3ADC0}.Release|x64.ActiveCfg = Release|x64
 		{28D78AE7-C187-4EA0-AC1B-6BCBACB3ADC0}.Release|x64.Build.0 = Release|x64
+		{3F12FACD-F71A-488E-978D-445A2FB7AF5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F12FACD-F71A-488E-978D-445A2FB7AF5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F12FACD-F71A-488E-978D-445A2FB7AF5F}.Debug|x64.ActiveCfg = Debug|x64
 		{3F12FACD-F71A-488E-978D-445A2FB7AF5F}.Debug|x64.Build.0 = Debug|x64
+		{3F12FACD-F71A-488E-978D-445A2FB7AF5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F12FACD-F71A-488E-978D-445A2FB7AF5F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3F12FACD-F71A-488E-978D-445A2FB7AF5F}.Release|x64.ActiveCfg = Release|x64
 		{3F12FACD-F71A-488E-978D-445A2FB7AF5F}.Release|x64.Build.0 = Release|x64
+		{D87EA215-742C-4F57-891E-A650070225C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D87EA215-742C-4F57-891E-A650070225C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D87EA215-742C-4F57-891E-A650070225C7}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D87EA215-742C-4F57-891E-A650070225C7}.Debug|x64.Build.0 = Debug|Any CPU
+		{D87EA215-742C-4F57-891E-A650070225C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D87EA215-742C-4F57-891E-A650070225C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D87EA215-742C-4F57-891E-A650070225C7}.Release|x64.ActiveCfg = Release|Any CPU
+		{D87EA215-742C-4F57-891E-A650070225C7}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
