@@ -118,7 +118,7 @@ namespace REngine.Framework.UrhoDriver
 
 		public override int GetHashCode()
 		{
-			return ptr.ToInt32();
+			return (int)ptr.ToInt64();
 		}
 
 		public static implicit operator Handler(IntPtr ptr) => new Handler(ptr);

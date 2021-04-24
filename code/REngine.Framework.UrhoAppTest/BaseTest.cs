@@ -22,7 +22,7 @@ namespace REngine.Framework.UrhoAppTest
 		private void Initialize()
 		{
 			Root = new Root();
-			Driver = new RootDriver();
+			Root.Driver = Driver = new RootDriver();
 			Engine = Root.CreateEngine();
 			Engine.Init();
 		}
