@@ -30,6 +30,12 @@ namespace REngine.Framework.UrhoDriver.Drivers
 			return (obj as NativeObject).Handle;
 		}
 
+		public ulong GetObjectCount()
+		{
+			ValidateThread();
+			return CoreInternals.Object_GetObjectCount();
+		}
+
 		public bool HasDestroyed(IHandle handle)
 		{
 			ValidateThread();

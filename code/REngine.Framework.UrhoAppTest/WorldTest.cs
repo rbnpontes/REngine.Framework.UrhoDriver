@@ -8,6 +8,18 @@ namespace REngine.Framework.UrhoAppTest
 	public class WorldTest : BaseTest
 	{
 		[TestMethod]
+		public void Test_Clear()
+		{
+			using(IWorld world = Root.CreateWorld())
+			{
+				for (int i = 0; i < 10; i++)
+					world.CreateActor();
+
+				world.Clear();
+				Assert.AreEqual(world.Actors.Count, 0);
+			}
+		}
+		[TestMethod]
 		public void Test_CreateActor()
 		{
 			using (IWorld world = Root.CreateWorld())
