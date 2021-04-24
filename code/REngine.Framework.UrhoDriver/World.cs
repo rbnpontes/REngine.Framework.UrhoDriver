@@ -9,7 +9,13 @@ namespace REngine.Framework.UrhoDriver
 {
 	internal class World : NativeObject, IWorld
 	{
-		public IReadOnlyList<IActor> Actors => throw new NotImplementedException();
+		public IReadOnlyList<IActor> Actors
+		{
+			get
+			{
+				return Driver.WorldDriver.GetActors(this);
+			}
+		}
 
 		public World(Handler handle, RootDriver driver) : base(handle, driver) { }
 
