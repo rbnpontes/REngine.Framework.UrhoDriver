@@ -16,6 +16,8 @@ namespace REngine.Framework.UrhoDriver.Component
 		{
 			if (_components.ContainsKey(type))
 				throw new ArgumentException("This component has been already registered!");
+			if (!type.IsAssignableFrom(typeof(IComponent)))
+				throw new ArgumentException("Current Type not Implements IComponent interface");
 		}
 
 		public IComponentCollection Add<Type>()
@@ -48,5 +50,11 @@ namespace REngine.Framework.UrhoDriver.Component
 			return this;
 		}
 
+		public TypeExtractor GetComponentCtor(Type type)
+		{
+			TypeExtractor result;
+			_components.TryGetValue(type, out result);
+			return result;
+		}	
 	}
 }
