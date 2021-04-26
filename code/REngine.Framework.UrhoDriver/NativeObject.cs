@@ -44,8 +44,6 @@ namespace REngine.Framework.UrhoDriver
 		{
 			if (System.Threading.Thread.CurrentThread != Driver.CurrentThread)
 				throw new AccessViolationException("This object is only accessible on Main Thread");
-			if (IsDestroyed)
-				throw new AccessViolationException("This object has been already destroyed!!!");
 		}
 
 		public override bool Equals(object obj)

@@ -57,6 +57,10 @@ namespace REngine.Framework.UrhoAppTest
 
 				parent.AddChild(child);
 				parent.Destroy();
+
+				Assert.AreEqual(0, world.Actors.Count);
+				Assert.IsTrue(Driver.CoreDriver.HasDestroyed(parent.Handle));
+				Assert.IsTrue(Driver.CoreDriver.HasDestroyed(child.Handle));
 			}
 		}
 
