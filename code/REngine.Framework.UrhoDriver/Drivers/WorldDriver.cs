@@ -3,6 +3,7 @@ using REngine.Framework.UrhoDriver.Internals;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,14 +27,26 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public IWorld Create(Root root)
 		{
-			Handler handler = WorldInternals.Scene_Create(RootDriver.ContextPtr);
-			return Wrap(handler);
+			Handler worldHandler = WorldInternals.Scene_Create(RootDriver.ContextPtr);
+			IWorld world = Wrap(worldHandler);
+
+			worldHandler.OnAdd += GetPtrAddDelegate(world);
+			worldHandler.OnRelease += GetPtrAddDelegate(world);
+			worldHandler.OnDestroy += HandlePtrDestroy;
+
+			return world;
 		}
 
 		public IActor CreateActor(IWorld world)
 		{
 			Handler handler = WorldInternals.Scene_CreateChild(GetPointerFromObj(world));
-			return RootDriver.ActorDriver.Wrap(handler);
+			IActor actor = RootDriver.ActorDriver.Wrap(handler);
+
+			handler.OnAdd += GetPtrAddDelegate(actor);
+			handler.OnRelease += GetPtrReleaseDelegate(actor);
+			handler.OnDestroy += HandlePtrDestroy;
+
+			return actor;
 		}
 
 		public IReadOnlyList<IActor> GetActors(IWorld world)

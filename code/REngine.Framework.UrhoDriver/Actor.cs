@@ -33,9 +33,13 @@ namespace REngine.Framework.UrhoDriver
 		}
 
 		private ComponentsActorHandler _componentsHandler;
-	
+
+		public int Counter = 0;
+		public static int counter = 0;
 		public Actor(Handler handler, RootDriver driver) : base(handler, driver) {
-			_componentsHandler = new ComponentsActorHandler(this, driver.ComponentCollection);
+			counter++;
+			Counter = counter;
+			//_componentsHandler = new ComponentsActorHandler(this, driver.ComponentCollection);
 		}
 
 		public IActor AddChild(IActor actor)

@@ -5,7 +5,6 @@ using System;
 namespace REngine.Framework.UrhoDriver
 {
 	delegate void DriverObjectCallback(IntPtr pointer);
-	delegate void DriverObjectAlignCallback(IntPtr pointer, int sessionId);
 	internal sealed class Handler : IHandle, IEquatable<IHandle>
 	{
 		private IntPtr ptr = IntPtr.Zero;
@@ -14,12 +13,16 @@ namespace REngine.Framework.UrhoDriver
 		private DriverObjectCallback _addRefCallback;
 		private DriverObjectCallback _removeRefCallback;
 		private DriverObjectCallback _destroyCallback;
-		private DriverObjectAlignCallback _alignCallback;
+
+		public event EventHandler OnAdd;
+		public event EventHandler OnRelease;
+		public event EventHandler OnDestroy;
 
 		private bool _isStrong = false;
-		private int _sessionId = -1;
 
 		private bool destroyed = false;
+
+		public bool IsStrong { get => _isStrong; }
 
 		public bool IsDestroyed { get => destroyed; }
 
@@ -48,7 +51,7 @@ namespace REngine.Framework.UrhoDriver
 				return;
 			}
 
-			_isStrong = Refs != 0;
+			_isStrong = Refs > 0;
 			
 			RegisterListeners();
 		}
@@ -60,52 +63,36 @@ namespace REngine.Framework.UrhoDriver
 				return;
 
 			if (_isStrong)
-			{
-				ClearListeners();
-;				return;
-			}
+				return;
 
 			CoreInternals.Object_Free(ptr);
 		}
 
 		private void RegisterListeners()
 		{
-			_sessionId = CoreInternals.Object_CreateCallbackSession(ptr);
-
 			_destroyCallback = (ptr) =>
 			{
 				destroyed = true;
+				OnDestroy?.Invoke(this, new EventArgs());
 				ptr = IntPtr.Zero;
 			};
 
 			_addRefCallback = (ptr) =>
 			{
 				_isStrong = true;
+				OnAdd?.Invoke(this, new EventArgs());
 			};
 
 			_removeRefCallback = (ptr) =>
 			{
-				// Does nothing
+				_isStrong = Refs > 0;
+				OnRelease?.Invoke(this, new EventArgs());
 			};
 
-			_alignCallback = (ptr, id) =>
-			{
-				_sessionId = id;
-			};
-
-			CoreInternals.Object_SetupCallbackSession(ptr, _sessionId, 
+			CoreInternals.Object_SetupCallbackSession(ptr, 
 				_addRefCallback, 
 				_removeRefCallback, 
-				_destroyCallback, 
-				_alignCallback);
-		}
-
-		private void ClearListeners()
-		{
-			_destroyCallback = _removeRefCallback = _addRefCallback = null;
-			_alignCallback = null;
-			
-			CoreInternals.Object_DropSession(ptr, _sessionId);
+				_destroyCallback);
 		}
 
 		public bool Equals(IHandle other)

@@ -1,6 +1,8 @@
 ﻿using REngine.Framework.Drivers;
 using REngine.Framework.UrhoDriver.Internals;
+using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace REngine.Framework.UrhoDriver.Drivers
 {
@@ -60,13 +62,30 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public IActor Wrap(IHandle handle)
 		{
-			Actor actor = new Actor(handle as Handler, RootDriver);
+			Handler handler = handle as Handler;
+			handler.TypeName = nameof(Actor);
+			Actor actor = new Actor(handler, RootDriver);
 			return actor;
 		}
 
-		public IActor ListGetterCallback(Handler handle)
+		public IActor ListGetterCallback(IntPtr handle)
 		{
-			return Wrap(handle);
+			IActor actor = null;
+			IntPtr pinnedPtr = CoreInternals.Object_GetManagedRefPtr(handle);
+			
+			if(pinnedPtr.Equals(IntPtr.Zero))
+			{
+				Handler handler = pinnedPtr;
+				actor = Wrap(handler);
+				SetObjectOnHandle(handler, actor);
+				handler.OnDestroy += HandlePtrDestroy;
+			} else
+			{
+				GCHandle gcHandle = GCHandle.FromIntPtr(pinnedPtr);
+				actor = (IActor)gcHandle.Target;
+			}
+
+			return actor;
 		}
 
 		public IActor GetParent(IActor actor)

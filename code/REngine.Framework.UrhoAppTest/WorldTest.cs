@@ -42,30 +42,5 @@ namespace REngine.Framework.UrhoAppTest
 				Assert.AreEqual(second, actors[1]);
 			}
 		}
-
-		private void MemoryLeakTest()
-		{
-			using (IWorld world = Root.CreateWorld())
-			{
-				for (int i = 0; i < 10; i++)
-					world.CreateActor();
-			}
-		}
-		[TestMethod]
-		public void Test_MemoryLeak()
-		{
-			using (MemoryTracer tracer = MemoryTracer.Begin())
-			{
-				MemoryLeakTest();
-
-				ForceGC();
-
-				tracer.End();
-
-				(uint dealloc, uint unalloc) = tracer.GetStatus();
-
-				Assert.AreEqual(unalloc, 0u);
-			}
-		}
 	}
 }

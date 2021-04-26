@@ -15,9 +15,9 @@ namespace REngine.Framework.UrhoDriver
 		public int Count => (int)ListInternals.ManagedList_GetLength((IntPtr)Handle.Obj);
 
 		public Handler Handle { get; private set; }
-		public Func<Handler, T> Getter { get; private set; }
+		public Func<IntPtr, T> Getter { get; private set; }
 
-		public InternalList(Handler handler, Func<Handler, T> getter)
+		public InternalList(Handler handler, Func<IntPtr, T> getter)
 		{
 			Handle = handler;
 			Getter = getter;
@@ -25,7 +25,7 @@ namespace REngine.Framework.UrhoDriver
 
 		public T At(uint idx)
 		{
-			Handler targetHandle = ListInternals.ManagedList_Get((IntPtr)Handle.Obj, idx);
+			IntPtr targetHandle = ListInternals.ManagedList_Get((IntPtr)Handle.Obj, idx);
 			return Getter(targetHandle);
 		}
 
