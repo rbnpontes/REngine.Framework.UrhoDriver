@@ -10,6 +10,8 @@ namespace REngine.Framework.UrhoDriver.Internals
 	internal static class ActorInternals
 	{
 		[DllImport(Constants.LibPath, CallingConvention = CallingConvention.Cdecl)]
+		public static extern uint Node_GetID(IntPtr ptr);
+		[DllImport(Constants.LibPath, CallingConvention = CallingConvention.Cdecl)]
 		public static extern string Node_GetName(IntPtr ptr);
 		[DllImport(Constants.LibPath, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Node_SetName(IntPtr ptr, string name);

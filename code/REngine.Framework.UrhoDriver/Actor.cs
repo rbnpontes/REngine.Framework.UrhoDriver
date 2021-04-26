@@ -8,6 +8,7 @@ namespace REngine.Framework.UrhoDriver
 {
 	internal class Actor : NativeObject, IActor
 	{
+		public int Id { get => Driver.ActorDriver.GetId(this); }
 		public string Name { 
 			get => Driver.ActorDriver.GetName(this); 
 			set => Driver.ActorDriver.SetName(this, value); 

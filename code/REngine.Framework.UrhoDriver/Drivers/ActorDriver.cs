@@ -88,5 +88,10 @@ namespace REngine.Framework.UrhoDriver.Drivers
 				GetPointerFromObj(target)
 			);
 		}
+
+		public int GetId(IActor src)
+		{
+			return (int)ActorInternals.Node_GetID(GetPointerFromObj(src));
+		}
 	}
 }
