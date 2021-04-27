@@ -73,7 +73,7 @@ namespace REngine.Framework.UrhoDriver.Drivers
 				GCHandle gcHandle = GCHandle.FromIntPtr(pinnedPtr);
 				component = (IComponent)gcHandle.Target;
 			}
-			return component
+			return component;
 		} 
 	}
 }
