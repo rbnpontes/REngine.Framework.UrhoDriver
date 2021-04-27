@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="ActorTest.cs" />
     <Compile Include="BaseTest.cs" />
+    <Compile Include="Components\TestComponent.cs" />
     <Compile Include="ComponentTest.cs" />
     <Compile Include="CoreTest.cs" />
     <Compile Include="WorldTest.cs" />

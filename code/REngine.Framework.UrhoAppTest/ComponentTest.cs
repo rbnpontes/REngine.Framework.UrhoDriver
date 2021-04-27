@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using REngine.Framework.Components;
+using REngine.Framework.UrhoAppTest.Components;
 using REngine.Framework.UrhoDriver;
 using System;
 using System.Collections.Generic;
@@ -32,5 +33,17 @@ namespace REngine.Framework.UrhoAppTest
 			}
 		}
 
+		[TestMethod]
+		public void Test_Component_Managed_Add()
+		{
+			CollectComponents();
+			using(IWorld world = Root.CreateWorld())
+			{
+				IActor actor = world.CreateActor();
+				TestComponent component = actor.CreateComponent<TestComponent>();
+
+				Assert.IsNotNull(component);
+			}
+		}
 	}
 }

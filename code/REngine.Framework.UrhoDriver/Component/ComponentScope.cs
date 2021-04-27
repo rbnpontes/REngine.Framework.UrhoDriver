@@ -71,9 +71,9 @@ namespace REngine.Framework.UrhoDriver.Component
 				ThrowComponentExistException(componentInfo.Type);
 
 			IComponent component = componentInfo.Ctor.Instantiate<IComponent>();
-			component.OnAwake();
 			component.Owner = _owner;
 			component.World = _owner.World;
+			component.OnAwake();
 			component.OnStart();
 
 			_components[componentInfo.Type] = component;
