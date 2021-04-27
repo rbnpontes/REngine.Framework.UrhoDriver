@@ -67,7 +67,7 @@ namespace REngine.Framework.UrhoDriver.Component
 				ThrowComponentExistException(componentInfo.Type);
 
 			IComponent component = Driver.ActorDriver.CreateComponent(_owner, componentInfo.ImplType);
-			(component as NativeComponent).Name = componentInfo.Type.GetCustomAttribute<NativeComponentAttribute>().Name;
+			(component as NativeComponent).Name = componentInfo.ImplType.GetCustomAttribute<NativeComponentAttribute>().Name;
 			return component;
 		}
 
@@ -102,7 +102,7 @@ namespace REngine.Framework.UrhoDriver.Component
 				ThrowComponentNotExistException(componentInfo.Type);
 
 			IComponent component = Driver.ActorDriver.GetComponent(_owner, componentInfo.ImplType);
-			(component as NativeComponent).Name = componentInfo.Type.GetCustomAttribute<NativeComponentAttribute>().Name;
+			(component as NativeComponent).Name = componentInfo.ImplType.GetCustomAttribute<NativeComponentAttribute>().Name;
 
 			return component;
 		}
