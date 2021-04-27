@@ -85,5 +85,25 @@ namespace REngine.Framework.UrhoAppTest
 				Assert.IsNotNull(actor.GetComponent<TestComponent>());
 			}
 		}
+
+		[TestMethod]
+		public void Test_Component_GetAllComponents()
+		{
+			using(IWorld world = Root.CreateWorld())
+			{
+				IActor actor = world.CreateActor();
+
+				actor.CreateComponent<ILight>();
+				actor.CreateComponent<TestComponent>();
+
+				var components = actor.GetAllComponents();
+
+				Assert.AreEqual(2, components.Count);
+				Assert.IsNotNull(components[0]);
+				Assert.IsNotNull(components[1]);
+				Assert.AreEqual("Light", components[0].Name);
+				Assert.AreEqual("TestComponent", components[1].Name);
+			}
+		}
 	}
 }

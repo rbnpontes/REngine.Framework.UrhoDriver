@@ -14,21 +14,25 @@ namespace REngine.Framework.UrhoDriver.Component
 		private RootDriver Driver { get => _owner.Driver; }
 
 		private IDictionary<Type, IComponent> _components = new Dictionary<Type, IComponent>();
-		private IComponent[] _cachedComponents = new IComponent[0];
 		internal ComponentScope(Actor actor, ComponentCollection collection)
 		{
 			_owner = actor;
 			_collection = collection;
 		}
 
-		public void Update()
+		private IReadOnlyList<IComponent> GetNativeComponents()
 		{
-
+			return Driver.ActorDriver.GetAllComponents(_owner);
 		}
 
-		public IComponent[] GetComponents()
+		private IReadOnlyList<IComponent> GetManagedComponents()
 		{
-			return _cachedComponents;
+			return _components.Values.ToList();
+		}
+
+		public IReadOnlyList<IComponent> GetComponents()
+		{
+			return GetNativeComponents().Concat(GetManagedComponents()).ToList().AsReadOnly();	
 		}
 		
 		private void ThrowUnregisteredComponentException(Type type)
