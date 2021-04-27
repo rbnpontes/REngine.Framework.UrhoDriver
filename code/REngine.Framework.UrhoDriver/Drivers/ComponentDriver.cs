@@ -63,7 +63,7 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 			if (pinnedPtr.Equals(IntPtr.Zero))
 			{
-				Handler handler = pinnedPtr;
+				Handler handler = handle;
 				component = Wrap(hashCode, handler);
 				SetObjectOnHandle(handler, component);
 				handler.OnDestroy += HandlePtrDestroy;
