@@ -67,6 +67,7 @@
     <Compile Include="Component\ComponentInfo.cs" />
     <Compile Include="Component\ComponentsActorHandler.cs" />
     <Compile Include="Component\ComponentScope.cs" />
+    <Compile Include="Component\LightComponent.cs" />
     <Compile Include="Component\NativeComponent.cs" />
     <Compile Include="Component\NativeComponentAttribute.cs" />
     <Compile Include="Component\UnknowComponent.cs" />
