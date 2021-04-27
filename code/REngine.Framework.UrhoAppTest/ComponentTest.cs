@@ -105,5 +105,26 @@ namespace REngine.Framework.UrhoAppTest
 				Assert.AreEqual("TestComponent", components[1].Name);
 			}
 		}
+
+		[TestMethod]
+		public void Test_Component_Lifecycle()
+		{
+			IWorld world = Root.CreateWorld();
+			IActor actor = world.CreateActor();
+
+			bool destroy = false;
+
+			TestComponent component = actor.CreateComponent<TestComponent>();
+
+			EventHandler destroyFn = (sender, e) => destroy = true;
+
+			component.OnDestroyEvent += destroyFn;
+
+			actor.RemoveComponent<TestComponent>();
+
+			component.OnDestroyEvent -= destroyFn;
+
+			Assert.IsTrue(destroy);
+		}
 	}
 }
