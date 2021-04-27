@@ -15,6 +15,8 @@ namespace REngine.Framework.UrhoDriver
 		protected IEngine Engine { get; private set; }
 		protected override void Init(IServiceCollection serviceCollection)
 		{
+			(Root.Driver as RootDriver).ComponentCollection.Collect();
+
 			Engine = Root.CreateEngine();
 
 			serviceCollection.AddSingleton<IEngine>(Engine);
