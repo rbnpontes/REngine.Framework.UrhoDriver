@@ -9,7 +9,7 @@ namespace REngine.Framework.UrhoDriver.Component
 {
 	internal class UnknowComponent : NativeComponent, IUnknowComponent
 	{
-		public UnknowComponent(Handler handler, RootDriver driver) : base(nameof(UnknowComponent)) {
+		public UnknowComponent(Handler handler, RootDriver driver) {
 			Handle = handler;
 			Driver = driver;
 		}
