@@ -33,5 +33,16 @@ namespace REngine.Framework.UrhoDriver.Internals
 		public static extern IntPtr Node_GetParent(IntPtr src);
 		[DllImport(Constants.LibPath, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Node_SetParent(IntPtr src, IntPtr actor);
+		[DllImport(Constants.LibPath, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool Node_HasComponent(IntPtr src, uint typeHash);
+		[DllImport(Constants.LibPath, CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr Node_CreateComponent(IntPtr src, uint typeHash);
+		[DllImport(Constants.LibPath, CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr Node_GetComponent(IntPtr src, uint typeHash);
+		[DllImport(Constants.LibPath, CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr Node_GetAllComponents(IntPtr src);
+		[DllImport(Constants.LibPath, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Node_RemoveComponent(IntPtr src, uint typeHash);
 	}
 }

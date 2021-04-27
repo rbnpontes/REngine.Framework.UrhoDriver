@@ -67,10 +67,13 @@
     <Compile Include="Component\ComponentInfo.cs" />
     <Compile Include="Component\ComponentsActorHandler.cs" />
     <Compile Include="Component\ComponentScope.cs" />
+    <Compile Include="Component\NativeComponent.cs" />
     <Compile Include="Component\NativeComponentAttribute.cs" />
+    <Compile Include="Component\UnknowComponent.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Drivers\ActorDriver.cs" />
     <Compile Include="Drivers\BaseDriver.cs" />
+    <Compile Include="Drivers\ComponentDriver.cs" />
     <Compile Include="Drivers\CoreDriver.cs" />
     <Compile Include="Drivers\EngineDriver.cs" />
     <Compile Include="Drivers\MeshDriver.cs" />

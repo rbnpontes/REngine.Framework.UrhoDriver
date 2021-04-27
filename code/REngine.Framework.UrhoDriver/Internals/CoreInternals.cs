@@ -18,6 +18,12 @@ namespace REngine.Framework.UrhoDriver.Internals
 		public static extern int Object_Refs(IntPtr ptr);
 
 		[DllImport(Constants.LibPath, CallingConvention = CallingConvention.Cdecl)]
+		public static extern string Object_GetTypeName(IntPtr ptr);
+
+		[DllImport(Constants.LibPath, CallingConvention = CallingConvention.Cdecl)]
+		public static extern uint Object_GetHashCode(IntPtr ptr);
+
+		[DllImport(Constants.LibPath, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Object_SetupCallbackSession(IntPtr ptr, 
 			DriverObjectCallback addCallback,
 			DriverObjectCallback releaseCallback, 
