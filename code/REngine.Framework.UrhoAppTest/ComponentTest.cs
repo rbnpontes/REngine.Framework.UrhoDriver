@@ -109,22 +109,58 @@ namespace REngine.Framework.UrhoAppTest
 		[TestMethod]
 		public void Test_Component_Lifecycle()
 		{
-			IWorld world = Root.CreateWorld();
-			IActor actor = world.CreateActor();
+			using (IWorld world = Root.CreateWorld())
+			{
+				IActor actor = world.CreateActor();
 
-			bool destroy = false;
+				bool destroy = false;
 
-			TestComponent component = actor.CreateComponent<TestComponent>();
+				TestComponent component = actor.CreateComponent<TestComponent>();
 
-			EventHandler destroyFn = (sender, e) => destroy = true;
+				EventHandler destroyFn = (sender, e) => destroy = true;
 
-			component.OnDestroyEvent += destroyFn;
+				component.OnDestroyEvent += destroyFn;
 
-			actor.RemoveComponent<TestComponent>();
+				actor.RemoveComponent<TestComponent>();
 
-			component.OnDestroyEvent -= destroyFn;
+				component.OnDestroyEvent -= destroyFn;
 
-			Assert.IsTrue(destroy);
+				Assert.IsTrue(destroy);
+			}
+		}
+
+		[TestMethod]
+		public void Test_Component_HasComponent()
+		{
+			using(IWorld world = Root.CreateWorld())
+			{
+				IActor actor = world.CreateActor();
+
+				actor.CreateComponent<ILight>();
+				actor.CreateComponent<TestComponent>();
+
+				Assert.IsTrue(actor.HasComponent<ILight>());
+				Assert.IsTrue(actor.HasComponent<TestComponent>());
+			}
+		}
+
+		[TestMethod]
+		public void Test_Component_Remove()
+		{
+			using (IWorld world = Root.CreateWorld())
+			{
+				IActor actor = world.CreateActor();
+
+				actor.CreateComponent<ILight>();
+				actor.CreateComponent<TestComponent>();
+
+				actor.RemoveComponent<ILight>();
+				actor.RemoveComponent<TestComponent>();
+
+				Assert.AreEqual(0, actor.GetAllComponents().Count);
+				Assert.IsFalse(actor.HasComponent<ILight>());
+				Assert.IsFalse(actor.HasComponent<TestComponent>());
+			}
 		}
 	}
 }
