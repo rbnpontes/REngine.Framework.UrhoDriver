@@ -32,14 +32,9 @@ namespace REngine.Framework.UrhoDriver
 			}
 		}
 
-		private ComponentsActorHandler _componentsHandler;
-
-		public int Counter = 0;
-		public static int counter = 0;
+		public ComponentScope ComponentScope { get; private set; }
 		public Actor(Handler handler, RootDriver driver) : base(handler, driver) {
-			counter++;
-			Counter = counter;
-			_componentsHandler = new ComponentsActorHandler(this, driver.ComponentCollection);
+			ComponentScope = driver.ComponentCollection.BuildComponentScope(this);
 		}
 
 		public IActor AddChild(IActor actor)
@@ -72,17 +67,17 @@ namespace REngine.Framework.UrhoDriver
 
 		public T CreateComponent<T>()
 		{
-			return (T)_componentsHandler.Create(typeof(T));
+			return (T)CreateComponent(typeof(T));
 		}
 
 		public IComponent CreateComponent(Type component)
 		{
-			return _componentsHandler.Create(component);
+			return ComponentScope.Create(component);
 		}
 
 		public T GetComponent<T>()
 		{
-			var component = _componentsHandler.GetComponents(typeof(T)).FirstOrDefault();
+			var component = GetComponent(typeof(T));
 			if (component is null)
 				return default(T);
 			return (T)component;
@@ -90,22 +85,12 @@ namespace REngine.Framework.UrhoDriver
 
 		public IComponent GetComponent(Type componentType)
 		{
-			return _componentsHandler.GetComponents(componentType).FirstOrDefault();
-		}
-
-		public IReadOnlyList<T> GetComponents<T>()
-		{
-			return (_componentsHandler.GetComponents(typeof(T)) as List<IComponent>).Select(x => (T)x).ToList().AsReadOnly();
-		}
-
-		public IReadOnlyList<IComponent> GetComponents(Type component)
-		{
-			return (_componentsHandler.GetComponents(component) as List<IComponent>).AsReadOnly();
+			return ComponentScope.GetComponent(componentType);
 		}
 
 		public IReadOnlyList<IComponent> GetAllComponents()
 		{
-			return (_componentsHandler.GetAllComponents() as List<IComponent>).AsReadOnly();
+			return ComponentScope.GetComponents().ToList().AsReadOnly();
 		}
 
 		public IActor RemoveComponent<T>()
@@ -115,19 +100,18 @@ namespace REngine.Framework.UrhoDriver
 
 		public IActor RemoveComponent(Type type)
 		{
-			_componentsHandler.RemoveComponentByType(type);
+			ComponentScope.RemoveComponent(type);
 			return this;
 		}
 
-		public IActor RemoveComponents<T>()
+		public bool HasComponent<T>()
 		{
-			return RemoveComponents(typeof(T));
+			return HasComponent(typeof(T));
 		}
 
-		public IActor RemoveComponents(Type type)
+		public bool HasComponent(Type type)
 		{
-			_componentsHandler.RemoveComponents(type);
-			return this;
+			return ComponentScope.HasComponent(type);
 		}
 	}
 }

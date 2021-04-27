@@ -29,7 +29,7 @@ namespace REngine.Framework.UrhoDriver
 		internal MeshDriver MeshDriver { get; private set; }
 		#endregion
 
-		public IComponentCollection ComponentCollection { get; private set; }
+		public ComponentCollection ComponentCollection { get; private set; }
 
 		public IResourcesCollection ResourcesCollection { get; private set; }
 
@@ -56,7 +56,6 @@ namespace REngine.Framework.UrhoDriver
 			// Setup Internal Drivers
 			ResourceManagerDriver = new ResourceManagerDriver(this);
 			MeshDriver = new MeshDriver(this);
-
 		}
 
 		public void Dispose()
