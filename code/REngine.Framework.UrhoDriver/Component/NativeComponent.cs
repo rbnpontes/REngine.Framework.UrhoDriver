@@ -11,15 +11,11 @@ namespace REngine.Framework.UrhoDriver.Component
 	{
 		public Guid Id => new Guid();
 
-		public string Name { get; private set; }
+		public string Name { get; internal set; }
 
 		public IActor Owner { get => null; set => throw new NotSupportedException("Native Components can`t change Owner"); }
 		public IWorld World { get => null; set => throw new NotSupportedException("Native Components can`t change World"); }
 
-		public NativeComponent(string name)
-		{
-			Name = name;
-		}
 		/// <summary>
 		/// Resolve Owner and World properties
 		/// </summary>

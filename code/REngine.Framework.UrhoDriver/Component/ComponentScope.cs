@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -66,6 +67,7 @@ namespace REngine.Framework.UrhoDriver.Component
 				ThrowComponentExistException(componentInfo.Type);
 
 			IComponent component = Driver.ActorDriver.CreateComponent(_owner, componentInfo.ImplType);
+			(component as NativeComponent).Name = componentInfo.Type.GetCustomAttribute<NativeComponentAttribute>().Name;
 			return component;
 		}
 
@@ -100,6 +102,8 @@ namespace REngine.Framework.UrhoDriver.Component
 				ThrowComponentNotExistException(componentInfo.Type);
 
 			IComponent component = Driver.ActorDriver.GetComponent(_owner, componentInfo.ImplType);
+			(component as NativeComponent).Name = componentInfo.Type.GetCustomAttribute<NativeComponentAttribute>().Name;
+
 			return component;
 		}
 		

@@ -19,6 +19,6 @@ namespace REngine.Framework.UrhoDriver.Component
 		public float Power { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 		public bool CastShadow { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-		public LightComponent() : base(nameof(LightComponent)) { }
+		public LightComponent() { }
 	}
 }
