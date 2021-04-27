@@ -1,6 +1,7 @@
 ﻿using REngine.Framework.Components;
 using REngine.Framework.Drivers;
 using REngine.Framework.Resources;
+using REngine.Framework.UrhoDriver.Component;
 using REngine.Framework.UrhoDriver.Drivers;
 using REngine.Framework.UrhoDriver.Internals;
 using REngine.Framework.UrhoDriver.Resources;
@@ -28,7 +29,7 @@ namespace REngine.Framework.UrhoDriver
 		internal MeshDriver MeshDriver { get; private set; }
 		#endregion
 
-		public IComponentCollection ComponentCollection => throw new NotImplementedException();
+		public IComponentCollection ComponentCollection { get; private set; }
 
 		public IResourcesCollection ResourcesCollection { get; private set; }
 
@@ -51,6 +52,7 @@ namespace REngine.Framework.UrhoDriver
 			EngineDriver = new EngineDriver(this);
 
 			ResourcesCollection = new ResourceCollection(this);
+			ComponentCollection = new ComponentCollection();
 			// Setup Internal Drivers
 			ResourceManagerDriver = new ResourceManagerDriver(this);
 			MeshDriver = new MeshDriver(this);

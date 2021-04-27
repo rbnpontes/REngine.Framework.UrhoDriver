@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace REngine.Framework.UrhoDriver.Component
 {
-	internal class ComponentCollection : IComponentCollection
+	internal class ComponentCollection
 	{
+		private IDictionary<uint, Type> _nativeComponents = new Dictionary<uint, Type>();
 		private IDictionary<Type, TypeExtractor> _components = new Dictionary<Type, TypeExtractor>();
 
 		private void ValidateType(Type type)
@@ -20,34 +21,9 @@ namespace REngine.Framework.UrhoDriver.Component
 				throw new ArgumentException("Current Type not Implements IComponent interface");
 		}
 
-		public IComponentCollection Add<Type>()
+		public void Collect()
 		{
-			return Add(typeof(Type));
-		}
 
-		public IComponentCollection Add<Type, Interface>()
-		{
-			return Add(typeof(Type), typeof(Interface));
-		}
-
-		public IComponentCollection Add(Type type, Type @interface = null)
-		{
-			ValidateType(@interface ?? type);
-			TypeExtractor typeExtractor = new TypeExtractor(type);
-			_components[@interface ?? type] = typeExtractor;
-
-			return this;
-		}
-
-		public IComponentCollection Create<T>(IActor actor)
-		{
-			return Create(actor, typeof(T));
-		}
-
-		public IComponentCollection Create(IActor actor, Type type)
-		{
-			actor.CreateComponent(type);
-			return this;
 		}
 
 		public TypeExtractor GetComponentCtor(Type type)

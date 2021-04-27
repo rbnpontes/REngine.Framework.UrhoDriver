@@ -22,7 +22,7 @@ namespace REngine.Framework.UrhoDriver.Component
 
 		private IList<IComponent> GetOrCreateList(Type type)
 		{
-			IList<IComponent> components = null;
+			IList<IComponent> components;
 
 			if (_components.TryGetValue(type, out components))
 				return components;

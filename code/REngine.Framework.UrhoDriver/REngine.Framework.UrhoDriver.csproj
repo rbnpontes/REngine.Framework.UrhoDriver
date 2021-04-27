@@ -65,6 +65,7 @@
     <Compile Include="Actor.cs" />
     <Compile Include="Component\ComponentCollection.cs" />
     <Compile Include="Component\ComponentsActorHandler.cs" />
+    <Compile Include="Component\NativeComponentAttribute.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Drivers\ActorDriver.cs" />
     <Compile Include="Drivers\BaseDriver.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Resources\ResourceManager.cs" />
     <Compile Include="RootDriver.cs" />
     <Compile Include="UrhoApplication.cs" />
+    <Compile Include="Utils\HashUtils.cs" />
     <Compile Include="World.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -105,8 +107,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Utils\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
