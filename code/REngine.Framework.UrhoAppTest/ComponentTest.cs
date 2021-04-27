@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using REngine.Framework.Components;
+using REngine.Framework.UrhoDriver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,16 @@ namespace REngine.Framework.UrhoAppTest
 	[TestClass]
 	public class ComponentTest : BaseTest
 	{
+		// Before create any Component, is necessary to Collect components first
+		private void CollectComponents()
+		{
+			(Driver as RootDriver).ComponentCollection.Collect();
+		}
+
 		[TestMethod]
 		public void Test_Component_Native_Add()
 		{
+			CollectComponents();
 			using (IWorld world = Root.CreateWorld())
 			{
 				IActor actor = world.CreateActor();

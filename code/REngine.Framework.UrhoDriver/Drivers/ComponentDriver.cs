@@ -44,7 +44,7 @@ namespace REngine.Framework.UrhoDriver.Drivers
 		{
 			ComponentInfo cp;
 
-			if (RootDriver.ComponentCollection.TryGetNativeComponentInfo(hashType, out cp))
+			if (!RootDriver.ComponentCollection.TryGetNativeComponentInfo(hashType, out cp))
 				return new UnknowComponent(handle as Handler, RootDriver);
 
 			NativeComponent component = cp.Ctor.Instantiate<NativeComponent>();
