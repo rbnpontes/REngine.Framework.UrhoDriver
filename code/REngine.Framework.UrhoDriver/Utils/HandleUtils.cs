@@ -49,7 +49,7 @@ namespace REngine.Framework.UrhoDriver.Utils
 		public static void ForceDestroy(IHandle handle)
 		{
 			Handler handler = handle as Handler;
-			handler.
+			handler.Destroy();
 		}
 	}
 }
