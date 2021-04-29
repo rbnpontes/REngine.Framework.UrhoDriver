@@ -54,6 +54,8 @@ namespace REngine.Framework.UrhoAppTest
 			Assert.IsNull(world.CreateActor());
 			world.Clear();
 			world.Dispose();
+
+			Assert.IsNull(HandleUtils.TryGetReferenceHolder(world.Handle));
 		}
 	}
 }
