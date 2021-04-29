@@ -80,5 +80,16 @@ namespace REngine.Framework.UrhoAppTest
 				Assert.AreEqual(actors.Count, 2);
 			}
 		}
+
+		[TestMethod]
+		public void Test_World()
+		{
+			using(IWorld world = Root.CreateWorld())
+			{
+				IActor parent = world.CreateActor();
+
+				Assert.AreEqual(world, parent.World);
+			}
+		}
 	}
 }

@@ -10,6 +10,7 @@ namespace REngine.Framework.UrhoDriver
 {
 	internal class Actor : NativeObject, IActor
 	{
+		public bool Enabled { get => Driver.ActorDriver.IsEnabled(this); set => Driver.ActorDriver.SetEnabled(this, value); }
 		public int Id { get => Driver.ActorDriver.GetId(this); }
 		public string Name { 
 			get => Driver.ActorDriver.GetName(this); 

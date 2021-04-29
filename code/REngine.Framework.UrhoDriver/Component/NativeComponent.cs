@@ -13,14 +13,14 @@ namespace REngine.Framework.UrhoDriver.Component
 
 		public string Name { get; internal set; }
 
-		public bool IsEnabled
+		public bool Enabled
 		{
 			get => Driver.ComponentDriver.IsEnabled(this);
 			set => Driver.ComponentDriver.SetEnabled(this, value);
 		}
 
-		public IActor Owner { get; set => throw new NotSupportedException("Is not supported to Change Owner on Native Components"); }
-		public IWorld World { get; set => throw new NotSupportedException("Is not supported to Change World on Native Components"); }
+		public IActor Owner { get => Driver.ComponentDriver.GetOwner(this); set => throw new NotSupportedException("Is not supported to Change Owner on Native Components"); }
+		public IWorld World { get => Driver.ComponentDriver.GetWorld(this); set => throw new NotSupportedException("Is not supported to Change World on Native Components"); }
 
 		/// <summary>
 		/// Resolve Owner and World properties
