@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using REngine.Framework.UrhoDriver;
+using REngine.Framework.UrhoDriver.Utils;
 using System;
 using System.Collections.Generic;
 
@@ -46,7 +47,13 @@ namespace REngine.Framework.UrhoAppTest
 		[TestMethod]
 		public void Test_World_After_Destroy()
 		{
+			IWorld world = Root.CreateWorld();
+			HandleUtils.ForceDestroy(world.Handle);
 
+			// IWorld methods can't throw any exception after handle destroy
+			Assert.IsNull(world.CreateActor());
+			world.Clear();
+			world.Dispose();
 		}
 	}
 }

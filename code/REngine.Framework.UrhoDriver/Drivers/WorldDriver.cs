@@ -15,9 +15,10 @@ namespace REngine.Framework.UrhoDriver.Drivers
 		{
 		}
 
-		public void Clear(IWorld handle)
+		public void Clear(IWorld world)
 		{
-			WorldInternals.Scene_Clear(GetPointerFromObj(handle));
+			if (!HandleHasDestroyed(world.Handle))
+			WorldInternals.Scene_Clear(GetPointerFromObj(world));
 		}
 
 		public IWorld Clone(IWorld world)
@@ -33,6 +34,8 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public IActor CreateActor(IWorld world)
 		{
+			if (HandleHasDestroyed(world.Handle))
+				return null;
 			IntPtr actorPtr = WorldInternals.Scene_CreateChild(GetPointerFromObj(world));
 			return TryBindReferenceHolder(actorPtr, (RootDriver.ActorDriver as ActorDriver).Wrap);
 		}

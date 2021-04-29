@@ -16,6 +16,11 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public BaseDriver(RootDriver driver) => RootDriver = driver;
 
+		public bool HandleHasDestroyed(IHandle handle)
+		{
+			return (handle as Handler).IsDestroyed;
+		}
+
 		public T TryBindReferenceHolder<T>(IntPtr ptr, Func<Handler, T> ctor)
 		{
 			T result = default(T);
