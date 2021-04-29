@@ -45,5 +45,11 @@ namespace REngine.Framework.UrhoDriver.Utils
 		{
 			return (handle as Handler).IsDestroyed;
 		}
+
+		public static void ForceDestroy(IHandle handle)
+		{
+			Handler handler = handle as Handler;
+			handler.
+		}
 	}
 }

@@ -42,5 +42,11 @@ namespace REngine.Framework.UrhoAppTest
 				Assert.AreEqual(second, actors[1]);
 			}
 		}
+		
+		[TestMethod]
+		public void Test_World_After_Destroy()
+		{
+
+		}
 	}
 }

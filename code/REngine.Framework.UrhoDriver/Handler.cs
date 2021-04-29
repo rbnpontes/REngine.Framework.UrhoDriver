@@ -65,7 +65,7 @@ namespace REngine.Framework.UrhoDriver
 			if (_isStrong)
 				return;
 
-			CoreInternals.Object_Free(ptr);
+			Destroy();
 		}
 
 		private void RegisterListeners()
@@ -93,6 +93,13 @@ namespace REngine.Framework.UrhoDriver
 				_addRefCallback, 
 				_removeRefCallback, 
 				_destroyCallback);
+		}
+
+		public void Destroy()
+		{
+			if (destroyed)
+				return;
+			CoreInternals.Object_Free(ptr);
 		}
 
 		public bool Equals(IHandle other)
