@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using REngine.Framework.UrhoAppTest.Components;
 using REngine.Framework.UrhoDriver;
 using REngine.Framework.UrhoDriver.Utils;
 using System;
@@ -101,6 +102,45 @@ namespace REngine.Framework.UrhoAppTest
 			}
 
 			Assert.IsTrue(HandleUtils.IsDestroyed(parent.Handle));
+		}
+
+		[TestMethod]
+		public void Test_Actor_After_Destroy()
+		{
+			using(IWorld world = Root.CreateWorld())
+			{
+				IActor puppetActor = world.CreateActor();
+				IActor actor = world.CreateActor();
+				actor.Destroy();
+
+				Assert.IsTrue(HandleUtils.IsDestroyed(actor.Handle));
+				Assert.IsNull(HandleUtils.TryGetReferenceHolder(actor.Handle));
+
+				// IActor methods can't throw any exception.
+				actor.AddChild(puppetActor);
+				actor.RemoveChild(puppetActor);
+				actor.Destroy();
+				actor.Detach();
+
+				actor.CreateComponent<TestComponent>();
+				Assert.IsNull(actor.GetComponent<TestComponent>());
+				Assert.IsNotNull(actor.GetAllComponents());
+				Assert.AreEqual(0, actor.GetAllComponents().Count);
+				Assert.IsFalse(actor.HasComponent<TestComponent>());
+				actor.RemoveComponent<TestComponent>();
+
+				string testStr = "Actor";
+				actor.Name = testStr;
+				Assert.Equals(testStr, actor.Name);
+				Assert.IsTrue(string.IsNullOrEmpty(actor.Name));
+				Assert.AreEqual(-1, actor.Id);
+				Assert.IsNull(actor.Parent);
+				Assert.IsNull(actor.World);
+				Assert.IsNotNull(actor.Children);
+				Assert.Equals(0, actor.Children.Count);
+			}
+
+
 		}
 	}
 }
