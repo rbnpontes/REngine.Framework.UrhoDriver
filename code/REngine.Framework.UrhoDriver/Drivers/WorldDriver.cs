@@ -27,26 +27,14 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public IWorld Create(Root root)
 		{
-			Handler worldHandler = WorldInternals.Scene_Create(RootDriver.ContextPtr);
-			IWorld world = Wrap(worldHandler);
-
-			worldHandler.OnAdd += GetPtrAddDelegate(world);
-			worldHandler.OnRelease += GetPtrAddDelegate(world);
-			worldHandler.OnDestroy += HandlePtrDestroy;
-
-			return world;
+			IntPtr worldPtr = WorldInternals.Scene_Create(RootDriver.ContextPtr);
+			return TryBindReferenceHolder(worldPtr, Wrap);
 		}
 
 		public IActor CreateActor(IWorld world)
 		{
-			Handler handler = WorldInternals.Scene_CreateChild(GetPointerFromObj(world));
-			IActor actor = RootDriver.ActorDriver.Wrap(handler);
-
-			handler.OnAdd += GetPtrAddDelegate(actor);
-			handler.OnRelease += GetPtrReleaseDelegate(actor);
-			handler.OnDestroy += HandlePtrDestroy;
-
-			return actor;
+			IntPtr actorPtr = WorldInternals.Scene_CreateChild(GetPointerFromObj(world));
+			return TryBindReferenceHolder(actorPtr, (RootDriver.ActorDriver as ActorDriver).Wrap);
 		}
 
 		public IReadOnlyList<IActor> GetActors(IWorld world)

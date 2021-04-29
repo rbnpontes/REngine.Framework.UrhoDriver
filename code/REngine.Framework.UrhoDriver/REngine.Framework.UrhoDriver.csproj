@@ -80,6 +80,7 @@
     <Compile Include="Drivers\ResourceManagerDriver.cs" />
     <Compile Include="Drivers\WorldDriver.cs" />
     <Compile Include="Engine.cs" />
+    <Compile Include="ReferenceHolder.cs" />
     <Compile Include="Handler.cs" />
     <Compile Include="InternalList.cs" />
     <Compile Include="Internals\ActorInternals.cs" />

@@ -19,12 +19,12 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public bool IsEnabled(IComponent component)
 		{
-			throw new NotImplementedException();
+			return ComponentInternals.Component_IsEnabled(GetPointerFromObj(component));
 		}
 
-		public bool SetEnabled(IComponent component, bool value)
+		public void SetEnabled(IComponent component, bool value)
 		{
-			throw new NotImplementedException();
+			ComponentInternals.Component_SetEnabled(GetPointerFromObj(component), value);
 		}
 
 		public uint GetTypeHashCode(Type type)
@@ -74,6 +74,18 @@ namespace REngine.Framework.UrhoDriver.Drivers
 				component = (IComponent)gcHandle.Target;
 			}
 			return component;
-		} 
+		}
+
+		public IActor GetOwner(IComponent component)
+		{
+			Handler ptr = ActorInternals.Node_GetScene(GetPointerFromObj(component));
+			return RootDriver.ActorDriver.Wrap(ptr);
+		}
+
+		public IWorld GetWorld(IComponent component)
+		{
+			Handler ptr = ActorInternals.Node_GetScene(GetPointerFromObj(component));
+			return RootDriver.WorldDriver.Wrap(ptr);
+		}
 	}
 }

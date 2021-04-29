@@ -44,5 +44,10 @@ namespace REngine.Framework.UrhoDriver.Internals
 		public static extern IntPtr Node_GetAllComponents(IntPtr src);
 		[DllImport(Constants.LibPath, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Node_RemoveComponent(IntPtr src, uint typeHash);
+		[DllImport(Constants.LibPath, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool Node_IsEnabled(IntPtr node);
+		[DllImport(Constants.LibPath, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void Node_SetEnabled(IntPtr node, [MarshalAs(UnmanagedType.I1)] bool value);
 	}
 }

@@ -16,8 +16,72 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public BaseDriver(RootDriver driver) => RootDriver = driver;
 
+		public T TryBindReferenceHolder<T>(IntPtr ptr, Func<Handler, T> ctor)
+		{
+			T result = default(T);
+			if (ptr.Equals(IntPtr.Zero))
+				return result;
+			IntPtr gcHandlePtr = CoreInternals.Object_GetManagedRefPtr(ptr);
+			if(gcHandlePtr.Equals(IntPtr.Zero))
+			{
+				Handler targetHandler = ptr;
+				result = ctor(targetHandler);
+
+				ReferenceHolder referenceHolder = new ReferenceHolder(result);
+				GCHandle gCHandle = GCHandle.Alloc(referenceHolder);
+
+				targetHandler.OnAdd += Handler_HandleAdd;
+				targetHandler.OnRelease += Handler_HandleRelease;
+				targetHandler.OnDestroy += Handler_HandleDestroy;
+
+				CoreInternals.Object_SetManagedRefPtr(ptr, GCHandle.ToIntPtr(gCHandle));
+			} else
+			{
+				GCHandle gCHandle = GCHandle.FromIntPtr(gcHandlePtr);
+				ReferenceHolder referenceHolder = gCHandle.Target as ReferenceHolder;
+				result = (T)referenceHolder.Target;
+			}
+
+			return result;
+		}
+
+		private void Handler_HandleAdd(object sender, EventArgs e)
+		{
+			Handler handler = sender as Handler;
+			GCHandle? gcHandle = GetGCHandleFromHandle(handler);
+			if (gcHandle is null)
+				return;
+			ReferenceHolder refHolder = gcHandle.Value.Target as ReferenceHolder;
+			refHolder.MakeStrong();
+		}
+
+		private void Handler_HandleRelease(object sender, EventArgs e)
+		{
+			Handler handler = sender as Handler;
+			if (!handler.IsStrong)
+				return;
+			GCHandle? gcHandle = GetGCHandleFromHandle(handler);
+			if (gcHandle is null)
+				return;
+			ReferenceHolder refHolder = gcHandle.Value.Target as ReferenceHolder;
+			refHolder.MakeWeak();
+		}
+
+		private void Handler_HandleDestroy(object sender, EventArgs e)
+		{
+			Handler handler = sender as Handler;
+			GCHandle? gcHandle = GetGCHandleFromHandle(handler);
+			if (gcHandle is null)
+				return;
+			ReferenceHolder refHolder = gcHandle.Value.Target as ReferenceHolder;
+			refHolder.MakeWeak();
+			gcHandle.Value.Free();
+		}
+
 		public IntPtr GetPointerFromNativeObj(NativeObject obj)
 		{
+			if (obj is null)
+				return IntPtr.Zero;
 			IHandle handle = obj.Handle;
 			return (IntPtr)handle.Obj;
 		}

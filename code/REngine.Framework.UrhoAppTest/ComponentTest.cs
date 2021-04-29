@@ -162,5 +162,24 @@ namespace REngine.Framework.UrhoAppTest
 				Assert.IsFalse(actor.HasComponent<TestComponent>());
 			}
 		}
+
+		[TestMethod]
+		public void Test_Component_Destroy()
+		{
+			using (IWorld world = Root.CreateWorld())
+			{
+				IActor actor = world.CreateActor();
+
+				ILight light = actor.CreateComponent<ILight>();
+				TestComponent testComponent = actor.CreateComponent<TestComponent>();
+
+				light.Destroy();
+				testComponent.Destroy();
+
+				Assert.AreEqual(0, actor.GetAllComponents().Count);
+				Assert.IsFalse(actor.HasComponent<ILight>());
+				Assert.IsFalse(actor.HasComponent<TestComponent>());
+			}
+		}
 	}
 }

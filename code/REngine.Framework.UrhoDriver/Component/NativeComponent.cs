@@ -13,8 +13,14 @@ namespace REngine.Framework.UrhoDriver.Component
 
 		public string Name { get; internal set; }
 
-		public IActor Owner { get => null; set => throw new NotSupportedException("Native Components can`t change Owner"); }
-		public IWorld World { get => null; set => throw new NotSupportedException("Native Components can`t change World"); }
+		public bool IsEnabled
+		{
+			get => Driver.ComponentDriver.IsEnabled(this);
+			set => Driver.ComponentDriver.SetEnabled(this, value);
+		}
+
+		public IActor Owner { get; set => throw new NotSupportedException("Is not supported to Change Owner on Native Components"); }
+		public IWorld World { get; set => throw new NotSupportedException("Is not supported to Change World on Native Components"); }
 
 		/// <summary>
 		/// Resolve Owner and World properties
@@ -42,6 +48,11 @@ namespace REngine.Framework.UrhoDriver.Component
 		public void OnStart()
 		{
 			throw new NotSupportedException("OnStart is not supported on Native Components");
+		}
+
+		public void Destroy()
+		{
+			Owner.RemoveComponent(GetType());
 		}
 	}
 }

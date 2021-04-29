@@ -74,22 +74,7 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public IActor ListGetterCallback(IntPtr handle)
 		{
-			IActor actor = null;
-			IntPtr pinnedPtr = CoreInternals.Object_GetManagedRefPtr(handle);
-			
-			if(pinnedPtr.Equals(IntPtr.Zero))
-			{
-				Handler handler = pinnedPtr;
-				actor = Wrap(handler);
-				SetObjectOnHandle(handler, actor);
-				handler.OnDestroy += HandlePtrDestroy;
-			} else
-			{
-				GCHandle gcHandle = GCHandle.FromIntPtr(pinnedPtr);
-				actor = (IActor)gcHandle.Target;
-			}
-
-			return actor;
+			return TryBindReferenceHolder(handle, Wrap);
 		}
 
 		public IActor GetParent(IActor actor)
@@ -100,12 +85,14 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public IWorld GetWorld(IActor actor)
 		{
-			Handler handler = ActorInternals.Node_GetScene(GetPointerFromObj(actor));
-			return RootDriver.WorldDriver.Wrap(handler);
+			IntPtr handler = ActorInternals.Node_GetScene(GetPointerFromObj(actor));
+			return TryBindReferenceHolder(handler, (RootDriver.WorldDriver as WorldDriver).Wrap);
 		}
 
 		public void SetParent(IActor actor, IActor target)
 		{
+			if (actor is null)
+				return;
 			ActorInternals.Node_SetParent(
 				GetPointerFromObj(actor),
 				GetPointerFromObj(target)
@@ -114,6 +101,8 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public int GetId(IActor src)
 		{
+			if (src is null)
+				return -1;
 			return (int)ActorInternals.Node_GetID(GetPointerFromObj(src));
 		}
 
@@ -157,6 +146,16 @@ namespace REngine.Framework.UrhoDriver.Drivers
 			NativeComponentAttribute attribute = type.GetCustomAttribute<NativeComponentAttribute>();
 
 			return attribute?.HashCode ?? HashUtils.SDBM(type.Name); // if type is not a component, try to create a hashcode by a name type
+		}
+
+		public void SetEnabled(IActor src, bool value)
+		{
+			ActorInternals.Node_SetEnabled(GetPointerFromObj(src), value);
+		}
+
+		public bool IsEnabled(IActor src)
+		{
+			return ActorInternals.Node_IsEnabled(GetPointerFromObj(src));
 		}
 	}
 }
