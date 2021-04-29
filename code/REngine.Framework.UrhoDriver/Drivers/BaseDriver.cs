@@ -28,6 +28,8 @@ namespace REngine.Framework.UrhoDriver.Drivers
 				result = ctor(targetHandler);
 
 				ReferenceHolder referenceHolder = new ReferenceHolder(result);
+				if (targetHandler.IsStrong)
+					referenceHolder.MakeStrong();
 				GCHandle gCHandle = GCHandle.Alloc(referenceHolder);
 
 				targetHandler.OnAdd += Handler_HandleAdd;

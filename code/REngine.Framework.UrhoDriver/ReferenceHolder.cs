@@ -2,7 +2,7 @@
 
 namespace REngine.Framework.UrhoDriver
 {
-	internal sealed class ReferenceHolder
+	public sealed class ReferenceHolder
 	{
 
 		public object StrongRef { get; private set; } = null;

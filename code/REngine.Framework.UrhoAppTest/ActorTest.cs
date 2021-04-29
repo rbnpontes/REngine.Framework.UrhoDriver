@@ -1,4 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using REngine.Framework.UrhoDriver;
+using REngine.Framework.UrhoDriver.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -84,12 +86,21 @@ namespace REngine.Framework.UrhoAppTest
 		[TestMethod]
 		public void Test_World()
 		{
+			IActor parent;
+			
 			using(IWorld world = Root.CreateWorld())
 			{
-				IActor parent = world.CreateActor();
-
+				parent = world.CreateActor();
+				ReferenceHolder referenceHolder = HandleUtils.TryGetReferenceHolder(parent.Handle);
+				
+				Assert.IsNotNull(world);
 				Assert.AreEqual(world, parent.World);
+				Assert.IsNotNull(referenceHolder);
+				Assert.IsTrue(referenceHolder.IsStrong);
+				Assert.IsFalse(referenceHolder.IsWeak);
 			}
+
+			Assert.IsTrue(HandleUtils.IsDestroyed(parent.Handle));
 		}
 	}
 }

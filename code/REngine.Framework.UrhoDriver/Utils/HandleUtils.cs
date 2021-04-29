@@ -30,5 +30,20 @@ namespace REngine.Framework.UrhoDriver.Utils
 				return true;
 			}
 		}
+
+		public static ReferenceHolder TryGetReferenceHolder(IHandle handle)
+		{
+			GCHandle? gCHandle;
+			TryGetGCHandle(handle, out gCHandle);
+
+			if (gCHandle is null)
+				return null;
+			return gCHandle.Value.Target as ReferenceHolder;
+		}
+
+		public static bool IsDestroyed(IHandle handle)
+		{
+			return (handle as Handler).IsDestroyed;
+		}
 	}
 }
