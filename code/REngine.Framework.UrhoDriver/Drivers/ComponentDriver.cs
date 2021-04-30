@@ -65,14 +65,27 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public IActor GetOwner(IComponent component)
 		{
-			Handler ptr = ActorInternals.Node_GetScene(GetPointerFromObj(component));
-			return RootDriver.ActorDriver.Wrap(ptr);
+			if (HasDestroyedComponent(component))
+				return null;
+			IntPtr ptr = ComponentInternals.Component_GetNode(GetPointerFromObj(component));
+			if (ptr.Equals(IntPtr.Zero))
+				return null;
+			return TryBindReferenceHolder(ptr, (RootDriver.ActorDriver as ActorDriver).Wrap);
 		}
 
 		public IWorld GetWorld(IComponent component)
 		{
-			Handler ptr = ActorInternals.Node_GetScene(GetPointerFromObj(component));
-			return RootDriver.WorldDriver.Wrap(ptr);
+			if (HasDestroyedComponent(component))
+				return null;
+			IntPtr ptr = ComponentInternals.Component_GetScene(GetPointerFromObj(component));
+			if (ptr.Equals(IntPtr.Zero))
+				return null;
+			return TryBindReferenceHolder(ptr, (RootDriver.WorldDriver as WorldDriver).Wrap);
+		}
+
+		private bool HasDestroyedComponent(IComponent component)
+		{
+			return HandleHasDestroyed((component as NativeComponent).Handle);
 		}
 	}
 }
