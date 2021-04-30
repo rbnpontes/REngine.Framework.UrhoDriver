@@ -43,37 +43,24 @@ namespace REngine.Framework.UrhoDriver.Drivers
 		public IComponent Wrap(uint hashType, IHandle handle)
 		{
 			ComponentInfo cp;
-
+			NativeComponent component;
 			if (!RootDriver.ComponentCollection.TryGetNativeComponentInfo(hashType, out cp))
-				return new UnknowComponent(handle as Handler, RootDriver);
+				component = new UnknowComponent();
+			else
+				component = cp.Ctor.Instantiate<NativeComponent>();
 
-			NativeComponent component = cp.Ctor.Instantiate<NativeComponent>();
 			component.Handle = handle;
-			component.Driver = RootDriver;
-			component.ResolveReferences();
+			component.Driver = RootDriver; 
 
 			return component;
 		}
 
 		public IComponent ListGetterCallback(IntPtr handle)
 		{
-			IComponent component = null;
+			if (handle.Equals(IntPtr.Zero))
+				return null;
 			uint hashCode = CoreInternals.Object_GetHashCode(handle);
-			IntPtr pinnedPtr = CoreInternals.Object_GetManagedRefPtr(handle);
-
-			if (pinnedPtr.Equals(IntPtr.Zero))
-			{
-				Handler handler = handle;
-				component = Wrap(hashCode, handler);
-				SetObjectOnHandle(handler, component);
-				handler.OnDestroy += HandlePtrDestroy;
-			}
-			else
-			{
-				GCHandle gcHandle = GCHandle.FromIntPtr(pinnedPtr);
-				component = (IComponent)gcHandle.Target;
-			}
-			return component;
+			return TryBindReferenceHolder(handle, (handler) => Wrap(hashCode, handler));
 		}
 
 		public IActor GetOwner(IComponent component)

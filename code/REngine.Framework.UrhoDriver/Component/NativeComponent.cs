@@ -22,14 +22,6 @@ namespace REngine.Framework.UrhoDriver.Component
 		public IActor Owner { get => Driver.ComponentDriver.GetOwner(this); set => throw new NotSupportedException("Is not supported to Change Owner on Native Components"); }
 		public IWorld World { get => Driver.ComponentDriver.GetWorld(this); set => throw new NotSupportedException("Is not supported to Change World on Native Components"); }
 
-		/// <summary>
-		/// Resolve Owner and World properties
-		/// </summary>
-		public void ResolveReferences()
-		{
-
-		}
-
 		public void OnAwake()
 		{
 			throw new NotSupportedException("OnAwake is not supported on Native Components");

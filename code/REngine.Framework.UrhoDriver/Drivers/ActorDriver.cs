@@ -92,6 +92,8 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public IActor ListGetterCallback(IntPtr handle)
 		{
+			if (handle.Equals(IntPtr.Zero))
+				return null;
 			return TryBindReferenceHolder(handle, Wrap);
 		}
 
@@ -142,14 +144,8 @@ namespace REngine.Framework.UrhoDriver.Drivers
 			if (HandleHasDestroyed(actor.Handle))
 				return null;
 
-			Handler handler = ActorInternals.Node_CreateComponent(GetPointerFromObj(actor), GetHashCodeFromType(type));
-			IComponent component = RootDriver.ComponentDriver.Wrap(type, handler);
-
-			handler.OnAdd += GetPtrAddDelegate(component);
-			handler.OnRelease += GetPtrReleaseDelegate(component);
-			handler.OnDestroy += HandlePtrDestroy;
-
-			return component;
+			IntPtr componentPtr = ActorInternals.Node_CreateComponent(GetPointerFromObj(actor), GetHashCodeFromType(type));
+			return TryBindReferenceHolder(componentPtr, (handle) => RootDriver.ComponentDriver.Wrap(type, handle));
 		}
 
 		public IComponent GetComponent(IActor actor, Type type)
