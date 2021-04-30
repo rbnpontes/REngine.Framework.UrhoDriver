@@ -122,7 +122,11 @@ namespace REngine.Framework.UrhoAppTest
 				actor.Destroy();
 				actor.Detach();
 
+				actor.Enabled = true;
+				Assert.IsFalse(actor.Enabled);
+
 				actor.CreateComponent<TestComponent>();
+				Assert.IsNull(actor.Clone());
 				Assert.IsNull(actor.GetComponent<TestComponent>());
 				Assert.IsNotNull(actor.GetAllComponents());
 				Assert.AreEqual(0, actor.GetAllComponents().Count);

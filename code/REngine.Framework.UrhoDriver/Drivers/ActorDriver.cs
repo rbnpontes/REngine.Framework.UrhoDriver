@@ -18,6 +18,8 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public void AddChild(IActor src, IActor handle)
 		{
+			if (HandleHasDestroyed(src.Handle) || HandleHasDestroyed(handle.Handle))
+				return;
 			ActorInternals.Node_AddChild(
 				GetPointerFromObj(src),
 				GetPointerFromObj(handle)
@@ -26,28 +28,38 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public IActor Clone(IActor actor)
 		{
+			if (HandleHasDestroyed(actor.Handle))
+				return null;
 			Handler handler = ActorInternals.Node_Clone(GetPointerFromObj(actor));
 			return Wrap(handler);
 		}
 
 		public void Destroy(IActor handle)
 		{
+			if (HandleHasDestroyed(handle.Handle))
+				return;
 			ActorInternals.Node_Destroy(GetPointerFromObj(handle));
 		}
 
 		public IReadOnlyList<IActor> GetChildren(IActor handle)
 		{
+			if (HandleHasDestroyed(handle.Handle))
+				return new List<IActor>();
 			Handler list = ActorInternals.Node_GetChildren(GetPointerFromObj(handle));
 			return new InternalList<IActor>(list, ListGetterCallback);
 		}
 
 		public string GetName(IActor handle)
 		{
+			if (HandleHasDestroyed(handle.Handle))
+				return string.Empty;
 			return ActorInternals.Node_GetName(GetPointerFromObj(handle));
 		}
 
 		public void RemoveChild(IActor src, IActor handle)
 		{
+			if (HandleHasDestroyed(src.Handle) || HandleHasDestroyed(handle.Handle))
+				return;
 			ActorInternals.Node_RemoveChild(
 				GetPointerFromObj(src),
 				GetPointerFromObj(handle)
@@ -56,16 +68,22 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public void SetName(IActor handle, string value)
 		{
+			if (HandleHasDestroyed(handle.Handle))
+				return;
 			ActorInternals.Node_SetName(GetPointerFromObj(handle), value);
 		}
 
 		public void Detach(IActor actor)
 		{
+			if (HandleHasDestroyed(actor.Handle))
+				return;
 			ActorInternals.Node_Detach(GetPointerFromObj(actor));
 		}
 
 		public IActor Wrap(IHandle handle)
 		{
+			if (HandleHasDestroyed(handle))
+				return null;
 			Handler handler = handle as Handler;
 			handler.TypeName = nameof(Actor);
 			Actor actor = new Actor(handler, RootDriver);
@@ -79,13 +97,19 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public IActor GetParent(IActor actor)
 		{
-			Handler handler = ActorInternals.Node_GetParent(GetPointerFromObj(actor));
-			return Wrap(handler);
+			if (HandleHasDestroyed(actor.Handle))
+				return null;
+			IntPtr ptr = ActorInternals.Node_GetParent(GetPointerFromObj(actor));
+			if (ptr.Equals(IntPtr.Zero))
+				return null;
+			return TryBindReferenceHolder(ptr, Wrap);
 		}
 
 		public IWorld GetWorld(IActor actor)
 		{
 			IntPtr handler = ActorInternals.Node_GetScene(GetPointerFromObj(actor));
+			if (handler.Equals(IntPtr.Zero))
+				return null;
 			return TryBindReferenceHolder(handler, (RootDriver.WorldDriver as WorldDriver).Wrap);
 		}
 
@@ -108,11 +132,16 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public bool HasComponent(IActor actor, Type type)
 		{
+			if (HandleHasDestroyed(actor.Handle))
+				return false;
 			return ActorInternals.Node_HasComponent(GetPointerFromObj(actor), GetHashCodeFromType(type));
 		}
 
 		public IComponent CreateComponent(IActor actor, Type type)
 		{
+			if (HandleHasDestroyed(actor.Handle))
+				return null;
+
 			Handler handler = ActorInternals.Node_CreateComponent(GetPointerFromObj(actor), GetHashCodeFromType(type));
 			IComponent component = RootDriver.ComponentDriver.Wrap(type, handler);
 
@@ -125,19 +154,24 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public IComponent GetComponent(IActor actor, Type type)
 		{
+			if (HandleHasDestroyed(actor.Handle))
+				return null;
 			IntPtr componentPtr = ActorInternals.Node_GetComponent(GetPointerFromObj(actor), GetHashCodeFromType(type));
-
 			return (RootDriver.ComponentDriver as ComponentDriver).ListGetterCallback(componentPtr);
 		}
 
 		public IReadOnlyList<IComponent> GetAllComponents(IActor actor)
 		{
+			if (HandleHasDestroyed(actor.Handle))
+				return new List<IComponent>();
 			Handler handler = ActorInternals.Node_GetAllComponents(GetPointerFromObj(actor));
 			return new InternalList<IComponent>(handler, (RootDriver.ComponentDriver as ComponentDriver).ListGetterCallback);
 		}
 
 		public void RemoveComponent(IActor actor, Type type)
 		{
+			if (HandleHasDestroyed(actor.Handle))
+				return;
 			ActorInternals.Node_RemoveComponent(GetPointerFromObj(actor), GetHashCodeFromType(type));
 		}
 		
@@ -150,11 +184,15 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public void SetEnabled(IActor src, bool value)
 		{
+			if (HandleHasDestroyed(src.Handle))
+				return;
 			ActorInternals.Node_SetEnabled(GetPointerFromObj(src), value);
 		}
 
 		public bool IsEnabled(IActor src)
 		{
+			if (HandleHasDestroyed(src.Handle))
+				return false;
 			return ActorInternals.Node_IsEnabled(GetPointerFromObj(src));
 		}
 	}
