@@ -81,6 +81,7 @@
     <Compile Include="Drivers\WorldDriver.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="Internals\ComponentInternals.cs" />
+    <Compile Include="EmptyReadOnlyList.cs" />
     <Compile Include="ReferenceHolder.cs" />
     <Compile Include="Handler.cs" />
     <Compile Include="InternalList.cs" />

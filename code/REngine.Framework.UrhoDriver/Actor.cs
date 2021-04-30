@@ -86,11 +86,15 @@ namespace REngine.Framework.UrhoDriver
 
 		public IComponent GetComponent(Type componentType)
 		{
+			if (IsDestroyed)
+				return null;
 			return ComponentScope.GetComponent(componentType);
 		}
 
 		public IReadOnlyList<IComponent> GetAllComponents()
 		{
+			if (IsDestroyed)
+				return Constants.EmptyComponentList;
 			return ComponentScope.GetComponents().ToList().AsReadOnly();
 		}
 

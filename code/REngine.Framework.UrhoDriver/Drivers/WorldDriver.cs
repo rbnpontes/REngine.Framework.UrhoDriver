@@ -42,6 +42,8 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public IReadOnlyList<IActor> GetActors(IWorld world)
 		{
+			if (HandleHasDestroyed(world.Handle))
+				return Constants.EmptyActorList;
 			// Urho3D Scene inherits Node Type
 			Handler handler = ActorInternals.Node_GetChildren(GetPointerFromObj(world));
 			return new InternalList<IActor>(handler, (RootDriver.ActorDriver as ActorDriver).ListGetterCallback);

@@ -44,7 +44,7 @@ namespace REngine.Framework.UrhoDriver.Drivers
 		public IReadOnlyList<IActor> GetChildren(IActor handle)
 		{
 			if (HandleHasDestroyed(handle.Handle))
-				return new List<IActor>();
+				return Constants.EmptyActorList;
 			Handler list = ActorInternals.Node_GetChildren(GetPointerFromObj(handle));
 			return new InternalList<IActor>(list, ListGetterCallback);
 		}
@@ -159,7 +159,8 @@ namespace REngine.Framework.UrhoDriver.Drivers
 		public IReadOnlyList<IComponent> GetAllComponents(IActor actor)
 		{
 			if (HandleHasDestroyed(actor.Handle))
-				return new List<IComponent>();
+				return Constants.EmptyComponentList;
+
 			Handler handler = ActorInternals.Node_GetAllComponents(GetPointerFromObj(actor));
 			return new InternalList<IComponent>(handler, (RootDriver.ComponentDriver as ComponentDriver).ListGetterCallback);
 		}

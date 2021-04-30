@@ -19,11 +19,15 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public bool IsEnabled(IComponent component)
 		{
+			if (HasDestroyedComponent(component))
+				return false;
 			return ComponentInternals.Component_IsEnabled(GetPointerFromObj(component));
 		}
 
 		public void SetEnabled(IComponent component, bool value)
 		{
+			if (HasDestroyedComponent(component))
+				return;
 			ComponentInternals.Component_SetEnabled(GetPointerFromObj(component), value);
 		}
 
