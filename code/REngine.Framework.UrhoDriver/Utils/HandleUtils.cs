@@ -19,6 +19,11 @@ namespace REngine.Framework.UrhoDriver.Utils
 		public static bool TryGetGCHandle(IHandle handle, out GCHandle? gcHandle)
 		{
 			IntPtr ptr = GetPtrFromHandle(handle);
+			if (ptr.Equals(IntPtr.Zero))
+			{
+				gcHandle = null;
+				return false;
+			}
 			IntPtr pinnedPtr = CoreInternals.Object_GetManagedRefPtr(ptr);
 			if(pinnedPtr.Equals(IntPtr.Zero))
 			{
