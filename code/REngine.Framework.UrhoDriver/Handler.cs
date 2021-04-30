@@ -33,7 +33,7 @@ namespace REngine.Framework.UrhoDriver
 
 		public object Obj
 		{
-			get => ptr;
+			get { return ptr; }
 		}
 
 #if DEBUG // Debug Purposes Only
@@ -74,7 +74,7 @@ namespace REngine.Framework.UrhoDriver
 			{
 				destroyed = true;
 				OnDestroy?.Invoke(this, new EventArgs());
-				ptr = IntPtr.Zero;
+				this.ptr = IntPtr.Zero;
 			};
 
 			_addRefCallback = (ptr) =>

@@ -13,6 +13,8 @@ namespace REngine.Framework.UrhoDriver.Utils
 	{
 		public static IntPtr GetPtrFromHandle(IHandle handle)
 		{
+			if ((handle as Handler).IsDestroyed)
+				return IntPtr.Zero;
 			return (IntPtr)handle.Obj;
 		}
 
