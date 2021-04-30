@@ -118,8 +118,8 @@ namespace REngine.Framework.UrhoDriver.Component
 		public IComponent GetComponent(Type type)
 		{
 			ComponentInfo cp;
-			
-			if(!_collection.TryGetComponentInfo(type, out cp))
+			type = GetCorrectlyType(type);
+			if (!_collection.TryGetComponentInfo(type, out cp))
 				ThrowUnregisteredComponentException(type);
 
 			return cp.IsNative ? GetNativeComponent(cp) : GetManagedComponent(cp);
@@ -128,6 +128,7 @@ namespace REngine.Framework.UrhoDriver.Component
 		public bool HasComponent(Type type)
 		{
 			ComponentInfo cp;
+			type = GetCorrectlyType(type);
 			if (!_collection.TryGetComponentInfo(type, out cp))
 				ThrowUnregisteredComponentException(type);
 
@@ -154,6 +155,7 @@ namespace REngine.Framework.UrhoDriver.Component
 		public void RemoveComponent(Type type)
 		{
 			ComponentInfo cp;
+			type = GetCorrectlyType(type);
 			if (!_collection.TryGetComponentInfo(type, out cp))
 				ThrowUnregisteredComponentException(type);
 
@@ -161,6 +163,17 @@ namespace REngine.Framework.UrhoDriver.Component
 				RemoveNativeComponent(cp);
 			else
 				RemoveManagedComponent(cp);
+		}
+
+		private Type GetCorrectlyType(Type type)
+		{
+			if (type.IsInterface)
+				return type;
+			ComponentAttribute managedComponentAttr = type.GetCustomAttribute<ComponentAttribute>();
+			if (managedComponentAttr != null)
+				return managedComponentAttr.InterfaceType ?? type;
+			NativeComponentAttribute nativeComponentAttr = type.GetCustomAttribute<NativeComponentAttribute>();
+			return nativeComponentAttr.InterfaceType ?? type;
 		}
 	}
 }
