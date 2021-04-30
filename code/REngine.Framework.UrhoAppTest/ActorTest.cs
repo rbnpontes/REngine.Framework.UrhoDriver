@@ -141,7 +141,7 @@ namespace REngine.Framework.UrhoAppTest
 				Assert.IsNull(actor.Parent);
 				Assert.IsNull(actor.World);
 				Assert.IsNotNull(actor.Children);
-				Assert.Equals(0, actor.Children.Count);
+				Assert.AreEqual(0, actor.Children.Count);
 			}
 
 
