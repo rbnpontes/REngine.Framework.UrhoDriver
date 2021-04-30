@@ -73,6 +73,8 @@ namespace REngine.Framework.UrhoDriver
 
 		public IComponent CreateComponent(Type component)
 		{
+			if (IsDestroyed)
+				return null;
 			return ComponentScope.Create(component);
 		}
 
@@ -105,6 +107,8 @@ namespace REngine.Framework.UrhoDriver
 
 		public IActor RemoveComponent(Type type)
 		{
+			if (IsDestroyed)
+				return null;
 			ComponentScope.RemoveComponent(type);
 			return this;
 		}
@@ -116,6 +120,8 @@ namespace REngine.Framework.UrhoDriver
 
 		public bool HasComponent(Type type)
 		{
+			if (IsDestroyed)
+				return false;
 			return ComponentScope.HasComponent(type);
 		}
 	}
