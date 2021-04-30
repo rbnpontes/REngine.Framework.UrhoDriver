@@ -127,7 +127,7 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public int GetId(IActor src)
 		{
-			if (src is null)
+			if (HandleHasDestroyed(src.Handle))
 				return -1;
 			return (int)ActorInternals.Node_GetID(GetPointerFromObj(src));
 		}

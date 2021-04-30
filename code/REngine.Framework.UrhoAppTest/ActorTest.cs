@@ -135,7 +135,7 @@ namespace REngine.Framework.UrhoAppTest
 
 				string testStr = "Actor";
 				actor.Name = testStr;
-				Assert.Equals(testStr, actor.Name);
+				Assert.AreNotEqual(testStr, actor.Name);
 				Assert.IsTrue(string.IsNullOrEmpty(actor.Name));
 				Assert.AreEqual(-1, actor.Id);
 				Assert.IsNull(actor.Parent);
