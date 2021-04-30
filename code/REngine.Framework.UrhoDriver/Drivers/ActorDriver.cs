@@ -109,6 +109,8 @@ namespace REngine.Framework.UrhoDriver.Drivers
 
 		public IWorld GetWorld(IActor actor)
 		{
+			if (HandleHasDestroyed(actor.Handle))
+				return null;
 			IntPtr handler = ActorInternals.Node_GetScene(GetPointerFromObj(actor));
 			if (handler.Equals(IntPtr.Zero))
 				return null;
